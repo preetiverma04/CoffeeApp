@@ -95,8 +95,6 @@ const CartScreen = ({ }) => {
                                 <CustomButton text={"Pay"}
                                     onPress={() => {
                                         console.log('====================================');
-                                        console.log();
-                                        console.log('====================================');
                                         navigation.navigate("PaymentScreen");
                                     }} style={styles.CustumButtonText}>
                                 </CustomButton >
