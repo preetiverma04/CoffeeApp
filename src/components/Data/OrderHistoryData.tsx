@@ -9,14 +9,14 @@ const OrderHistoryData=[
     },
       {
         image: require("../../assets/coffee_assets/arabica_coffee_beans/arabica_coffee_beans_square.png"),
-        coffeeText: "Americano",
+        coffeeText: "Arabica",
         coffeeSubtitle: "With Steamed Milk",
         dolarSymbol: "$",
         price: 37.20,
     },
     {
         image: require("../../assets/coffee_assets/arabica_coffee_beans/arabica_coffee_beans_square.png"),
-        coffeeText: "Americano",
+        coffeeText: "Arabica",
         coffeeSubtitle: "With Steamed Milk",
         dolarSymbol: "$",
         price: 37.20,

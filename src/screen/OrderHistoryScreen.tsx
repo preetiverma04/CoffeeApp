@@ -159,12 +159,12 @@ const styles = StyleSheet.create({
     },
     coffeeText: {
         fontFamily:"Popppins-Bold",
-        fontSize: RPW(5),
+        fontSize: RPW(5.5),
         color: "white",
         fontWeight: '800',
     },
     subtitle: {
-        fontFamily:"Poppins-Medium",
+        fontFamily:"Poppins-Bold",
         fontSize: RPW(3),
         color: "lightgrey",
     },
@@ -175,14 +175,15 @@ const styles = StyleSheet.create({
     },
     dollarSymbol: {
         fontFamily:"Poppins-Bold",
-        fontWeight: "bold",
+        fontWeight: "700",
         fontSize: RPW(5),
         color: "#D17842",
         marginRight: RPW(0.5),
     },
     price: {
+        marginTop:RPH(0.5),
         fontFamily:"Poppins-Bold",
-        fontSize: RPW(4),
+        fontSize: RPW(5),
         color: "white",
     },
     itemContent: {
@@ -205,17 +206,28 @@ const styles = StyleSheet.create({
         marginVertical: RPW(3),
     },
     orderText: {
+        textAlign:"center",
+        
+        fontFamily: "Poppins-Bold",
+        fontSize: RPW(4),
         color: "white",
-        marginLeft: RPW(3),
     },
     orderDate: {
+        textAlign: "center",
+        fontFamily: "Poppins-Bold",
+        fontSize:RPH(2.4),
         color: "white",
         marginLeft: RPW(2.5),
     },
     totalAmountText: {
+        fontFamily: "Poppins-Bold",
+        fontSize: RPW(4),
         color: "white",
     },
     totalAmountPrice: {
+        textAlign:"center",
+        fontFamily:"Poppins-Bold",
+        fontSize:RPW(5),
         color: "#D17842",
     },
     customButtonStyle: {
@@ -277,6 +289,8 @@ const styles = StyleSheet.create({
         marginRight: RPW(4),
     },
     sizeText: {
+        fontFamily:"Poppins-Bold",
+        fontSize:RPH(3),
         textAlignVertical: "center",
         color: "white",
     },
@@ -294,22 +308,24 @@ const styles = StyleSheet.create({
        
     },
     bottomPrice: {
-        
-        fontSize: RPW(4),
+        fontFamily:"Poppins-Bold",
+        fontWeight: "700",
+        fontSize: RPW(5),
         color: "white",
     },
     multiplySymbol: {
-        fontSize: RPW(4),
-        color: "white",
+        fontFamily: "Poppins-Bold",
+        fontWeight: "700",
+        fontSize: RPW(5.5),
+        color: "#D17842",
     },
     quantity: {
-        fontSize: RPW(4),
+        fontFamily: "Poppins-Bold",
+        fontWeight: "700",
+        fontSize: RPW(5),
         color: "white",
     },
-    // dollarSymbol: {
-    //     fontWeight: "bold",
-    //     fontSize: RPW(4),
-    // },
+   
     animation: {
         width: RPW(100),
         height: RPH(100),

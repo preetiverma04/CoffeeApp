@@ -288,7 +288,7 @@ const styles = StyleSheet.create({
     DescriptionHeader: {
         fontFamily: "Poppins-Bold",
         lineHeight: RPW(12),
-        marginHorizontal: RPW(3),
+        marginHorizontal: RPW(4),
         color: "white",
         fontSize: RPW(6),
     },
@@ -296,9 +296,9 @@ const styles = StyleSheet.create({
         fontFamily: "Poppins-Medium",
         textAlign: "justify",
         fontWeight: "600",
-        marginHorizontal: RPW(3),
+        marginHorizontal: RPW(4),
         color: "white",
-        fontSize: RPW(2.5),
+        fontSize: RPW(3),
     },
     SizeText: {
         marginHorizontal: RPW(3.8),
@@ -337,10 +337,10 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         marginHorizontal: RPW(3),
         marginTop: RPW(4),
-        marginBottom: RPW(15), // Adjust marginBottom as needed
+        marginBottom: RPW(15),
     },
     priceContainer: {
-        flex: 1, // Price container takes up available space
+        flex: 1, 
     },
     priceRow: {
         flexDirection: 'row',
@@ -366,17 +366,15 @@ const styles = StyleSheet.create({
     button: {
         flex: 1, 
         backgroundColor: "orange",
-       
         height: RPH(7),
         borderRadius: RPW(5),
         justifyContent: "center",
         alignItems: "center",
         paddingHorizontal: RPW(4),
-      
     },
     buttonText: {
-       textAlign:"center",
-        fontSize: RPW(3),
+        textAlign:"center",
+        fontSize: RPW(4.5),
         fontFamily: "Poppins-Bold",
         color: "white",
     },

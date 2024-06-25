@@ -1,5 +1,5 @@
 import React, { ReactNode } from 'react';
-import { Text, View, StyleSheet, Image, FlatList,  Pressable, ScrollView } from 'react-native';
+import { Text, View, StyleSheet, Image, FlatList, Pressable, ScrollView } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 import Header from '../components/Header';
 import { CartData } from '../components/Data/CoffeeTabData';
@@ -44,7 +44,10 @@ const renderItemsdata = ({ item }: { item: CartItem }) => {
                             <View style={styles.symbolContainer}>
                                 <Text style={styles.symbolText}>{item.symbolminus}</Text>
                             </View>
-                            <View style={styles.middleView} />
+                            <View style={styles.middleView}>
+                                <Text style={styles.middleviewtext}>1</Text>
+                            </View>
+
                             <View style={styles.symbolContainer}>
                                 <Text style={styles.symbolText}>{item.symbolplus}</Text>
                             </View>
@@ -56,8 +59,8 @@ const renderItemsdata = ({ item }: { item: CartItem }) => {
     );
 };
 
-const CartScreen = ({}) => {
-    const navigation= useNavigation()
+const CartScreen = ({ }) => {
+    const navigation = useNavigation()
     return (
         <View style={styles.cartScreenOuter}>
             <FlatList
@@ -71,22 +74,22 @@ const CartScreen = ({}) => {
                         <Header text={"Cart Screen"} />
                     </View>
                 )}
-                ListFooterComponent={()=>(
+                ListFooterComponent={() => (
                     <>
-             
-                    <View style={styles.TotalPriceConatiner}>
-                        
-                        <Text style={styles.TotalPriceText}>
-                            Total Price
-                        </Text>
-                    </View><View style={styles.priceOuterContainer}>
+
+                        <View style={styles.TotalPriceConatiner}>
+
+                            <Text style={styles.TotalPriceText}>
+                                Total Price
+                            </Text>
+                        </View><View style={styles.priceOuterContainer}>
                             <View style={styles.priceInnerContainer}>
                                 <Text style={styles.dolarStyle}>
                                     $
                                 </Text>
                                 <Text style={styles.price}> 13.5
                                 </Text>
-                                   
+
                             </View>
                             <View>
                                 <CustomButton text={"Pay"}
@@ -95,11 +98,11 @@ const CartScreen = ({}) => {
                                         console.log();
                                         console.log('====================================');
                                         navigation.navigate("PaymentScreen");
-                                    } } style={styles.CustumButtonText}>
+                                    }} style={styles.CustumButtonText}>
                                 </CustomButton >
                             </View>
                         </View>
-                         </>
+                    </>
                 )}
             />
         </View>
@@ -120,9 +123,9 @@ const styles = StyleSheet.create({
         borderRadius: RPW(2),
     },
     itemMediewRoasted: {
-        fontSize:RPW(2.5),
-        fontFamily:"Poppins-Medium",
-        fontWeight:"500",
+        fontSize: RPW(2.5),
+        fontFamily: "Poppins-Medium",
+        fontWeight: "500",
         color: "#AEAEAE",
         textAlign: "center",
         justifyContent: "center"
@@ -162,22 +165,22 @@ const styles = StyleSheet.create({
         borderRadius: 10,
     },
     itemTextContainer: {
-        marginTop:RPH(1),
-        alignSelf:"center",
+        marginTop: RPH(1),
+        alignSelf: "center",
         flex: 1,
     },
     itemTitle: {
-        fontFamily:"Poppins-Bold",
+        fontFamily: "Poppins-Bold",
         alignSelf: "center",
         fontSize: RPW(5),
         color: "#FFFFFF",
-        fontWeight:"400",
+        fontWeight: "400",
         // marginBottom: RPW(2),
     },
     itemSubtitle: {
         fontFamily: "Poppins-Medium",
         alignSelf: "center",
-        fontWeight:'400',
+        fontWeight: '400',
         fontSize: RPW(2.5),
         color: "grey",
     },
@@ -215,9 +218,19 @@ const styles = StyleSheet.create({
         justifyContent: 'space-between',
         alignItems: 'center',
     },
-    dolarSymobolCart: {
-        fontWeight:"600",
+    middleviewtext: {
+        color: "white",
+        textAlign: "center",
+        fontSize:RPW(4),
         fontFamily:"Poppins-Bold",
+        justifyContent: "center",
+        alignItems: "center",
+        textAlignVertical: "center",
+        fontWeight:"700",
+    },
+    dolarSymobolCart: {
+        fontWeight: "600",
+        fontFamily: "Poppins-Bold",
         marginTop: RPW(1.5),
         color: "orange",
         alignSelf: "center",
@@ -226,7 +239,7 @@ const styles = StyleSheet.create({
     priceCartText: {
         fontWeight: "600",
         fontFamily: "Poppins-Bold",
-        marginTop:RPW(1.5),
+        marginTop: RPW(1.5),
         color: "white",
         alignSelf: "center",
         fontSize: RPW(5),
@@ -246,17 +259,17 @@ const styles = StyleSheet.create({
 
     },
     dolarStyle: {
-        fontSize:RPW(5),
+        fontSize: RPW(5),
         color: "#D17842",
-        fontWeight:"600",
-        fontFamily:"Poppins-Bold"
+        fontWeight: "600",
+        fontFamily: "Poppins-Bold"
     },
     price: {
         fontSize: RPW(5),
         color: "white",
         fontWeight: "600",
         fontFamily: "Poppins-Bold",
-       
+
     },
     priceInnerContainer: {
         flexDirection: "row",
@@ -267,8 +280,8 @@ const styles = StyleSheet.create({
         marginBottom: RPW(12),
         justifyContent: "space-between"
     },
-    CustumButtonText:{
-     fontSize:RPW(5),
+    CustumButtonText: {
+        fontSize: RPW(5),
         fontWeight: "600",
         fontFamily: "Poppins-Bold",
         width: RPW(60)
