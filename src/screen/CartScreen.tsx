@@ -7,6 +7,7 @@ import { RPH, RPW } from '../components/ScreenSize';
 import CustomButton from '../components/CustomButton';
 import { NavigationContainer, useNavigation } from '@react-navigation/native';
 import PaymentScreen from './PaymentScreen';
+import { useSelector } from 'react-redux';
 interface CartItem {
     dolarSymbol?: string;
     price?: any,
@@ -17,54 +18,60 @@ interface CartItem {
     symbolminus?: any;
     symbolplus?: any;
 }
-const renderItemsdata = ({ item }: { item: CartItem }) => {
-    return (
-        <View style={styles.itemWrapper}>
-            <LinearGradient colors={['#262B33', '#262B33', 'black']}
-                style={{ borderRadius: RPW(5) }}>
-                <View style={styles.itemContent}>
-                    <Image source={item.image} style={styles.itemImage} />
-                    <View style={styles.itemTextContainer}>
-                        <Text style={styles.itemTitle}>{item.title}</Text>
-                        <Text style={styles.itemSubtitle}>{item.subtitle}</Text>
-                        <Pressable onPress={() => { console.log("Medieum Roasted buttton ") }}>
-                            <View style={styles.itemMedieumRoastedContainer}>
-                                <Text style={styles.itemMediewRoasted}>{item.medieumRoasted}</Text>
-                            </View>
-                        </Pressable>
-                        <View style={styles.priceConatinerCart}>
-                            <Text style={styles.dolarSymobolCart}>
-                                {item.dolarSymbol}
-                            </Text>
-                            <Text style={styles.priceCartText}>
-                                {item.price}
-                            </Text>
-                        </View>
-                        <View style={styles.controlsContainer}>
-                            <View style={styles.symbolContainer}>
-                                <Text style={styles.symbolText}>{item.symbolminus}</Text>
-                            </View>
-                            <View style={styles.middleView}>
-                                <Text style={styles.middleviewtext}>1</Text>
-                            </View>
+const CartScreen = () => {
+    const CartItems = useSelector((state) => state.Cart.Cart);
+    const navigation = useNavigation()
+    console.log('===================Cartitems=================');
+    console.log(CartItems);
+    console.log('====================================');
+    
+    const renderItemsdata = ({ item }: { item: CartItem }) => {
 
-                            <View style={styles.symbolContainer}>
-                                <Text style={styles.symbolText}>{item.symbolplus}</Text>
+        return (
+
+            <View style={styles.itemWrapper}>
+                <LinearGradient colors={['#21262E', 'black']}
+                    style={{ borderRadius: RPW(5) }}>
+                    <View style={styles.itemContent}>
+                        <Image source={item.image} style={styles.itemImage} />
+                        <View style={styles.itemTextContainer}>
+                            <Text style={styles.itemTitle}>{item.title}</Text>
+                            <Text style={styles.itemSubtitle}>{item.subtitle}</Text>
+                            {/* <Pressable onPress={() => { console.log("Medieum Roasted buttton ") }}>
+                            <View style={styles.itemMedieumRoastedContainer}>
+                                <Text style={styles.itemMediewRoasted}><Medium></Medium></Text>
+                            </View>
+                        </Pressable> */}
+                            <View style={styles.priceConatinerCart}>
+                                <Text style={styles.dolarSymobolCart}>
+                                    {item.dolarSymbol}
+                                </Text>
+                                <Text style={styles.priceCartText}>
+                                    {item.price}
+                                </Text>
+                            </View>
+                            <View style={styles.controlsContainer}>
+                                <View style={styles.symbolContainer}>
+                                    <Text style={styles.symbolText}>{item.symbolminus}</Text>
+                                </View>
+                                <View style={styles.middleView}>
+                                    <Text style={styles.middleviewtext}>1</Text>
+                                </View>
+
+                                <View style={styles.symbolContainer}>
+                                    <Text style={styles.symbolText}>{item.symbolplus}</Text>
+                                </View>
                             </View>
                         </View>
                     </View>
-                </View>
-            </LinearGradient>
-        </View>
-    );
-};
-
-const CartScreen = ({ }) => {
-    const navigation = useNavigation()
+                </LinearGradient>
+            </View>
+        );
+    };
     return (
         <View style={styles.cartScreenOuter}>
             <FlatList
-                data={CartData}
+                data={CartItems}
                 renderItem={renderItemsdata}
                 keyExtractor={(item, index) => index.toString()}
                 showsVerticalScrollIndicator={false}
@@ -77,18 +84,21 @@ const CartScreen = ({ }) => {
                 ListFooterComponent={() => (
                     <>
 
-                        <View style={styles.TotalPriceConatiner}>
+                        <View style={styles.priceOuterContainer}>
+                            <View style={{ flexDirection: "column" }}>
+                                <View style={styles.TotalPriceConatiner}>
 
-                            <Text style={styles.TotalPriceText}>
-                                Total Price
-                            </Text>
-                        </View><View style={styles.priceOuterContainer}>
-                            <View style={styles.priceInnerContainer}>
-                                <Text style={styles.dolarStyle}>
-                                    $
-                                </Text>
-                                <Text style={styles.price}> 13.5
-                                </Text>
+                                    <Text style={styles.TotalPriceText}>
+                                        Total Price
+                                    </Text>
+                                </View>
+                                <View style={styles.priceInnerContainer}>
+                                    <Text style={styles.dolarStyle}>
+                                        $
+                                    </Text>
+                                    <Text style={styles.price}> 13.5
+                                    </Text>
+                                </View>
 
                             </View>
                             <View>
@@ -116,7 +126,7 @@ const styles = StyleSheet.create({
         width: RPW(35),
         height: RPH(5),
         justifyContent: "center",
-        backgroundColor: "#141921",
+        backgroundColor: "#0C0F14",
         marginTop: RPH(1),
         borderRadius: RPW(2),
     },
@@ -139,7 +149,7 @@ const styles = StyleSheet.create({
     itemWrapper: {
         borderRadius: RPW(15),
         marginTop: RPW(3),
-        // backgroundColor:'hsba(218, 40%, 8%, 1)'
+
     },
     itemContainer: {
         padding: RPW(5),
@@ -147,11 +157,8 @@ const styles = StyleSheet.create({
         overflow: 'hidden',
     },
     itemContent: {
-        // borderWidth:1,
-        // borderColor:"lightgrey",
-        // marginBottom: RPH(2),
         borderRadius: RPW(5),
-        height: RPH(28),
+        height: RPH(23.5),
         flexDirection: 'row',
         alignSelf: "center"
     },
@@ -159,12 +166,13 @@ const styles = StyleSheet.create({
         marginLeft: RPW(5),
         marginTop: RPW(5),
         width: RPW(40),
-        height: RPH(20),
+        height: RPH(18),
         borderRadius: 10,
     },
     itemTextContainer: {
-        marginTop: RPH(1),
-        alignSelf: "center",
+        marginTop: RPH(3),
+        
+        // alignSelf: "center",
         flex: 1,
     },
     itemTitle: {
@@ -173,7 +181,6 @@ const styles = StyleSheet.create({
         fontSize: RPW(5),
         color: "#FFFFFF",
         fontWeight: "400",
-        // marginBottom: RPW(2),
     },
     itemSubtitle: {
         fontFamily: "Poppins-Medium",
@@ -186,27 +193,30 @@ const styles = StyleSheet.create({
         marginLeft: RPW(3),
         marginRight: RPW(3),
         flexDirection: 'row',
-        // alignSelf:"center",
         justifyContent: "space-around",
-        marginTop: RPH(2),
+        marginTop: RPH(1),
     },
     symbolContainer: {
         backgroundColor: "orange",
         width: RPW(8),
-        height: RPH(3.5),
+        height: RPH(4),
         justifyContent: 'center',
         alignItems: 'center',
         borderRadius: RPW(2),
     },
     symbolText: {
+
+        fontWeight: "bold",
         textAlign: "center",
         textAlignVertical: "center",
         justifyContent: "center",
         alignSelf: "center",
         color: 'white',
-        fontSize: RPW(5),
+        fontSize: RPW(6),
     },
     middleView: {
+        alignSelf:"center",
+        
         borderColor: "orange",
         borderWidth: 1,
         backgroundColor: 'black',
@@ -215,16 +225,18 @@ const styles = StyleSheet.create({
         height: RPH(3.5),
         justifyContent: 'space-between',
         alignItems: 'center',
+        textAlignVertical: "center",
     },
     middleviewtext: {
         color: "white",
+        fontWeight: "600",
         textAlign: "center",
-        fontSize:RPW(4),
-        fontFamily:"Poppins-Bold",
+        alignSelf: "center",
+        fontSize: RPW(4),
+        fontFamily: "Poppins-Bold",
+        textAlignVertical: "center",
         justifyContent: "center",
         alignItems: "center",
-        textAlignVertical: "center",
-        fontWeight:"700",
     },
     dolarSymobolCart: {
         fontWeight: "600",
@@ -248,9 +260,10 @@ const styles = StyleSheet.create({
         height: RPH(7),
     },
     TotalPriceConatiner: {
-        marginTop: RPW(4)
+        // marginTop: RPW(3)
     },
     TotalPriceText: {
+
         color: "white",
         fontWeight: "600",
         fontFamily: "Poppins-Bold"
@@ -258,7 +271,7 @@ const styles = StyleSheet.create({
     },
     dolarStyle: {
         fontSize: RPW(5),
-        color: "#D17842",
+        color: "orange",
         fontWeight: "600",
         fontFamily: "Poppins-Bold"
     },
@@ -267,13 +280,13 @@ const styles = StyleSheet.create({
         color: "white",
         fontWeight: "600",
         fontFamily: "Poppins-Bold",
-
     },
     priceInnerContainer: {
-        flexDirection: "row",
 
+        flexDirection: "row",
     },
     priceOuterContainer: {
+        marginTop: RPH(2),
         flexDirection: "row",
         marginBottom: RPW(12),
         justifyContent: "space-between"
@@ -283,7 +296,6 @@ const styles = StyleSheet.create({
         fontWeight: "600",
         fontFamily: "Poppins-Bold",
         width: RPW(60)
-
     }
 });
 export default CartScreen;

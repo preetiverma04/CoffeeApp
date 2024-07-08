@@ -1,236 +1,191 @@
 import React, { useState } from 'react';
-import { FlatList, StyleSheet, View, Text, ImageBackground, Image, TouchableOpacity } from 'react-native';
-import { RPW, RPH } from '../components/ScreenSize';
-import FavouriteData from '../components/Data/FavouriteData';
+import { StyleSheet, View, Text, ImageBackground, Image, TouchableOpacity } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
-import { useNavigation } from '@react-navigation/native';
-import { ImageSourcePropType } from 'react-native';
-
-interface DetailItem {
-    [x: string]: ImageSourcePropType | undefined;
-    image: any;
-    title: any;
-    subtitle: any;
-    imageCoffeeicon: any;
-    CoffeeIconText: any;
-    milkIconText: any;
-    imageMilkIcon: any;
-    starIcon: any;
-    starRatingText1: any;
-    starRatingText2: any;
-    DescriptionHeading: any;
-    Description: any;
-    Size: any;
-    sizeData: any;
-    priceText: any;
-    dolarSymbol: any;
-    price: any;
-    buttonText: any;
-}
-
+import { useNavigation, useRoute } from '@react-navigation/native';
+import { RPW, RPH } from '../components/ScreenSize';
+import { useDispatch } from 'react-redux';
+import { addToCart, addToFavourite } from '../components/redux/Action';
 const DetailScreen = () => {
-    const [selectedSize, setSelectedSize] = useState("");
+    const dispatch=useDispatch()
     const navigation = useNavigation();
-
-    const handleSizePress = (size: string) => {
+    const route = useRoute();
+    const item= route.params.item;
+    console.log('Received item:', item);
+    if (!item) {
+        return <Text>Loading...</Text>; 
+    }
+    const [selectedSize, setSelectedSize] = useState(item.sizeData[0]); 
+    const handleSizePress = (size:any) => {
         setSelectedSize(size);
     };
-
-    const renderItem = ({ item }: { item: DetailItem }) => {
-        return (
-            <View style={styles.outerContainer}>
-                <LinearGradient colors={['#262B33', '#262B33', 'black']}>
-                    <View style={styles.outerContainer2}>
-                        <ImageBackground source={item.image} style={styles.image}>
-                            <View style={styles.topRow}>
-                                <TouchableOpacity
-                                    style={styles.backButtonContainer}
-                                    onPress={() => navigation.goBack()}
-                                >
-                                    <Image
-                                        source={require("../assets/images/paymentScreenimages/back.png")}
-                                        style={styles.backIcon}
-                                    />
-                                </TouchableOpacity>
-                                <View style={styles.likeIconContainer}>
-                                    <Image
-                                        source={require("../assets/images/pnggimagesFavouriteScreen/likeIcon1.png")}
-                                        style={styles.likeIcon}
-                                    />
-                                </View>
-                            </View>
-
-                            <View style={styles.innerContainer1}>
-                                <View style={styles.innerConatiner2}>
-                                    <View>
-                                        <Text style={styles.text}>{item.title}</Text>
-                                        <Text style={styles.textSubtitle}>{item.subtitle}</Text>
-                                    </View>
-                                    <View style={styles.iconContainerouter}>
-                                        <View style={styles.iconContainer}>
-                                            <Image source={item.imageCoffeeicon} style={styles.icon} />
-                                            <Text style={styles.IconContainerText}>{item.CoffeeIconText}</Text>
-                                        </View>
-                                        <View style={[styles.iconContainer, { marginLeft: RPW(2) }]}>
-                                            <Image source={item.imageMilkIcon} style={styles.icon} />
-                                            <Text style={styles.IconContainerText}>{item.milkIconText}</Text>
-                                        </View>
-                                    </View>
-                                </View>
-                                <View style={styles.RatingTextConatinerOuter}>
-                                    <View style={styles.ratingContent}>
-                                        <Image source={item.starIcon} style={styles.starIcon}></Image>
-                                        <Text style={styles.starRatingText1}>{item.starRatingText1}</Text>
-                                        <Text style={styles.starRatingText2}>{item.starRatingText2}</Text>
-                                    </View>
-                                    <TouchableOpacity style={styles.medieumRoastedButton} activeOpacity={0.7}>
-                                        <Text style={styles.buttonTextRoatedButton}>Medium Roasted</Text>
-                                    </TouchableOpacity>
-                                </View>
-                            </View>
-                        </ImageBackground>
-                        <View>
-                            <Text style={styles.DescriptionHeader}>{item.DescriptionHeading}</Text>
-                            <Text style={styles.Description}>{item.Description}</Text>
-                        </View>
-
-                        <View>
-                            <Text style={styles.SizeText}>{item.Size}</Text>
-                        </View>
-                        <View style={styles.SizeDataOuter}>
-                            {item.sizeData.map((size: any, index: any) => (
-                                <TouchableOpacity
-                                    key={index}
-                                    onPress={() => handleSizePress(size)}
-                                    style={[
-                                        styles.sizeDataContainer,
-                                        selectedSize === size && styles.selectedSizeDataContainer
-                                    ]}
-                                >
-                                    <Text style={[
-                                        styles.sizeDataText,
-                                        selectedSize === size && styles.selectedSizeDataText
-                                    ]}>
-                                        {size}
-                                    </Text>
-                                </TouchableOpacity>
-                            ))}
-                        </View>
-                        <View>
-                            {/* <Text style={styles.priceText}>{item.priceText}</Text> */}
-                            <View style={styles.priceButtonContainer}>
-                                <View style={styles.priceContainer}>
-                                    <Text style={styles.priceText}>{item.priceText}</Text>
-                                    <View style={styles.priceRow}>
-                                        <Text style={styles.dolarSymbol}>{item.dolarSymbol}</Text>
-                                        <Text style={styles.price}>{item.price}</Text>
-                                    </View>
-                                </View>
-                                <TouchableOpacity style={styles.button}>
-                                    <Text style={styles.buttonText}>{item.buttonText}</Text>
-                                </TouchableOpacity>
-                            </View>
-
-                        </View>
-                    </View>
-                </LinearGradient>
-            </View>
-        );
-    };
-
+    const handlelikeIcon =()=>{
+        dispatch(addToFavourite(item));
+        
+    }
+    const handlecartButton=()=>{
+        dispatch(addToCart(item))
+    }
     return (
         <View style={styles.container}>
-            <FlatList
-                data={FavouriteData.slice(0, 1)}
-                renderItem={renderItem}
-                keyExtractor={(item, index) => index.toString()}
-            />
+            <LinearGradient colors={['#262B33', '#262B33', 'black']} style={styles.gradient}>
+                <ImageBackground source={item.image} style={styles.image}>
+                    <View style={styles.topRow}>
+                        <TouchableOpacity style={styles.backButtonContainer} onPress={() => navigation.goBack()}>
+                            <Image source={require("../assets/images/paymentScreenimages/back.png")} style={styles.backIcon} />
+                        </TouchableOpacity>
+                        <TouchableOpacity style={styles.likeIconContainer} onPress={() =>  handlelikeIcon()}>
+                            <Image source={item.likeIcon} style={styles.likeIcon} />
+                        </TouchableOpacity>
+                    </View>
+                    <View style={styles.detailContainer}>
+                        <View style={{ flexDirection: "row", justifyContent: "space-between", marginHorizontal: RPW(3) }}>
+                            <View style={styles.textContainer}>
+                                <Text style={styles.title}>{item.title}</Text>
+                                <Text style={styles.subtitle}>{item.subtitle}</Text>
+                            </View>
+
+                            <View style={styles.iconRow}>
+                                <View style={styles.iconBox}>
+                                    <Image source={item.imageCoffeeIcon} style={styles.icon} />
+                                    <Text style={styles.iconText}>{item.CoffeeIconText}</Text>
+                                </View>
+                                <View style={[styles.iconBox, { marginLeft: RPW(2) }]}>
+                                    <Image source={item.imageMilkIcon} style={styles.icon} />
+                                    <Text style={styles.iconText}>{item.milkIconText}</Text>
+                                </View>
+                            </View>
+                        </View>
+                        <View style={styles.starRatedContainer}>
+                            <TouchableOpacity onPress={() => { /* Handle star press */ }}>
+                                <View style={styles.starinnerRated}>
+                                    <Image source={item.starIcon} style={styles.starIcon} />
+                                    <Text style={styles.ratedtext1}>{item.starRatingText1}</Text>
+                                    <Text style={styles.ratedtext2}>{item.starRatingText2}</Text>
+                                </View>
+                            </TouchableOpacity>
+                            <TouchableOpacity style={styles.ratedButtonContainer} onPress={() => { /* Handle rated button press */ }}>
+                                <Text style={styles.ratedButtonText}>Roasted Medium</Text>
+                            </TouchableOpacity>
+                        </View>
+                    </View>
+                </ImageBackground>
+                <View >
+                    <Text style={styles.descriptionHeader}>{item.DescriptionHeading}  </Text>
+                   
+                    <Text style={styles.description}>{item.Description}</Text>
+                </View>
+                <View >
+                    <Text style={{color:"white",fontSize:RPH(2.5),fontFamily:"Poppins-Medium",marginHorizontal:RPW(4)}} >{item.Size}</Text>
+                    <View style={styles.sizeContainer}>
+                        {item.sizeData.map((size: string) => (
+                            <TouchableOpacity
+                                key={size}
+                                onPress={() => handleSizePress(size)}
+                                style={[styles.sizeButton, selectedSize === size && styles.sizeButtonSelected]}
+                            >
+                                <Text style={[styles.sizeButtonText, selectedSize === size && styles.sizetextSelected]}>{size}</Text>
+                            </TouchableOpacity>
+                        ))}
+                    </View>
+                </View>
+                <View style={styles.priceButtonContainer}>
+                <View>
+                        <Text style={styles.priceLabel}>{item.priceText}</Text>
+                   
+                    <View style={styles.priceRow}>
+                       
+                        <Text style={styles.dollarSymbol}>{item.dolarSymbol}</Text>
+                        <Text style={styles.price}>{item.price}</Text>
+                    </View>
+                </View>
+                    <TouchableOpacity style={styles.button} onPress={() =>  handlecartButton()}>
+                        <Text style={styles.buttonText}>{item.buttonText}</Text>
+                    </TouchableOpacity>
+                </View>
+            </LinearGradient>
         </View>
     );
 };
-
 const styles = StyleSheet.create({
     container: {
         flex: 1,
         backgroundColor: "#0C0F14",
     },
-    outerContainer: {
+    gradient: {
         flex: 1,
-        overflow: 'hidden',
     },
-    outerContainer2: {},
     image: {
-        borderRadius: RPW(20),
         flex: 1,
         width: '100%',
-        height: RPH(50),
-        justifyContent: 'flex-end',
+        height:"100%",
+        // height: '60%',
+        justifyContent: "flex-end",
     },
     topRow: {
         flexDirection: 'row',
         justifyContent: 'space-between',
-        padding: RPW(3),
+        paddingHorizontal: RPW(5),
         alignItems: 'center',
         width: '100%',
         position: 'absolute',
         top: RPW(3),
     },
     backButtonContainer: {
-        backgroundColor: '#21262E',
+        backgroundColor: '#0C0F14',
         borderRadius: RPW(1.3),
         padding: RPW(2),
         width: RPW(10),
         height: RPH(5),
     },
     backIcon: {
+        tintColor: "white",
         alignSelf: "center",
         width: RPW(4),
         height: RPH(3),
     },
     likeIconContainer: {
-        backgroundColor: '#21262E',
+        backgroundColor: '#0C0F14',
         borderRadius: RPW(1.3),
         width: RPW(10),
         height: RPH(5),
         padding: RPW(2),
     },
     likeIcon: {
+        tintColor:"red",
         alignSelf: "center",
         width: RPW(5),
         height: RPH(3),
     },
-    innerContainer1: {
+    detailContainer: {
         borderTopLeftRadius: RPW(12),
         borderTopRightRadius: RPW(12),
         width: '100%',
-        height: RPH(20),
+        height: "40%",
         backgroundColor: 'rgba(0, 0, 0, 0.6)',
-        paddingVertical: RPW(2),
+        paddingVertical: RPW(3),
         paddingHorizontal: RPW(3),
     },
-    text: {
+    textContainer: {
+        marginBottom: RPH(2),
+    },
+    title: {
         fontFamily: "Poppins-Bold",
-        marginTop: RPH(1),
         color: 'white',
         fontSize: RPW(7),
     },
-    textSubtitle: {
+    subtitle: {
         color: 'white',
         fontSize: RPW(3),
     },
-    innerConatiner2: {
+    iconRow: {
         flexDirection: "row",
-        justifyContent: "space-between",
+        marginBottom: RPH(2),
     },
-    iconContainerouter: {
-        marginHorizontal: RPW(2.5),
-        flexDirection: "row",
-        borderRadius: RPW(5)
-    },
-    iconContainer: {
+    iconBox: {
+        flexDirection: "column",
         borderRadius: RPW(3),
-        width: RPW(10),
-        height: RPH(6),
+        width: RPW(13),
+        height: RPH(6.5),
         backgroundColor: "#0C0F14",
         justifyContent: "center",
         alignItems: "center",
@@ -239,144 +194,162 @@ const styles = StyleSheet.create({
         width: RPW(5),
         height: RPH(4),
     },
-    IconContainerText: {
+    iconText: {
         color: "white",
         fontSize: RPW(2.0),
+        marginLeft: RPW(1),
     },
-    starIcon: {
-        marginTop: RPW(1),
-        width: RPW(8),
-        height: RPH(4),
-    },
-    RatingTextConatinerOuter: {
-        marginTop: RPW(3),
+    starRatedContainer: {
         flexDirection: "row",
         justifyContent: "space-between",
-        alignItems: "center",
     },
-    ratingContent: {
+    starinnerRated: {
         flexDirection: "row",
         alignItems: "center",
+        justifyContent: "center"
     },
-    starRatingText1: {
-        fontFamily: "Poppins-Bold",
-        marginTop: RPH(1),
+    ratedtext1: {
+        lineHeight: RPH(3),
         color: "white",
-        fontSize: RPW(5),
-    },
-    starRatingText2: {
-        marginTop:RPW(2.5),
-        margin:RPW(1.4),
         fontFamily: "Poppins-Bold",
-        color: "white",
-        fontSize: RPW(3),
+        fontWeight: "300",
+        fontSize: RPW(4)
     },
-    medieumRoastedButton: {
-        height: RPH(6.5),
+    ratedtext2: {
+        fontFamily: "Poppins-Medium",
+        fontWeight: "300",
+        lineHeight: RPH(3),
+        color: "white",
+    },
+    starIcon: {
+        tintColor: "orange",
+        marginLeft: RPW(3),
+        width: RPW(7),
+        height: RPH(3),
+    },
+    ratedButtonContainer: {
+        backgroundColor: '#0C0F14',
+        borderRadius: RPW(4),
+        width: RPW(35),
+        height: RPH(6),
         justifyContent: "center",
         alignItems: "center",
-        borderRadius: RPW(2),
-        backgroundColor: "#0C0F14",
-        paddingHorizontal: RPW(4),
     },
-    buttonTextRoatedButton: {
-        color: "white",
-        textAlign: "center",
-        fontSize: RPW(3.5),
-        fontFamily: "Poppins-Bold",
+    ratedButtonText: {
+        color: 'white',
+        fontFamily: 'Poppins-Bold',
+        fontSize: RPW(3),
+        textAlign: 'center',
     },
-    DescriptionHeader: {
-        fontFamily: "Poppins-Bold",
-        lineHeight: RPW(12),
+    descriptionHeader: {
+        fontFamily: "Poppins-Medium",
+         
+        lineHeight: RPH(6),
         marginHorizontal: RPW(4),
         color: "white",
         fontSize: RPW(6),
     },
-    Description: {
+    description: {
+       
         fontFamily: "Poppins-Medium",
         textAlign: "justify",
-        fontWeight: "600",
+        fontWeight: "400",
         marginHorizontal: RPW(4),
         color: "white",
-        fontSize: RPW(3),
+        lineHeight: RPH(2.6),
+        fontSize: RPW(2.8),
     },
-    SizeText: {
-        marginHorizontal: RPW(3.8),
-        color: "white",
-        fontSize: RPW(5),
-        marginVertical: RPH(3),
-    },
-    sizeDataText: {
-        color: "white",
-        fontSize: RPW(4),
-    },
-    sizeDataContainer: {
-        backgroundColor: "black",
-        width: RPW(29),
-        height: RPH(6.5),
-        justifyContent: "center",
-        alignItems: "center",
-        alignContent: "center",
-        borderRadius: RPW(4),
-        borderColor: "grey",
-        borderWidth: 1,
-    },
-    selectedSizeDataContainer: {
-        borderColor: "orange",
-    },
-    selectedSizeDataText: {
-        color: "orange",
-    },
-    SizeDataOuter: {
-        marginHorizontal: RPW(3),
-        flexDirection: "row",
-        justifyContent: "space-between",
-    },
-    priceButtonContainer: {
+    sizeContainer: {
         flexDirection: 'row',
+        marginHorizontal:RPW(3),
+        justifyContent: 'space-between',
+        marginVertical: RPW(3),
+    },
+    sizeButton: {
+        width:RPW(25),
+        height:RPH(6),
+        marginHorizontal:RPW(3),
+        justifyContent:"center",
+        // padding: RPW(2),
+        borderRadius: RPW(3),
+        backgroundColor: 'black',
+    },
+    sizeButtonSelected: {
+       borderColor:"orange",
+       borderWidth:1,
+    },
+    sizeButtonText: {
+        alignItems:"center",
+        alignSelf:"center",
+        color: 'white',
+        fontSize:RPW(5),
+        textAlignVertical:"center",
+        fontFamily:"Poppins-Bold"
+    },
+    sizetextSelected:{
+        color:"orange"
+
+    },
+
+    priceButtonContainer: {
+        marginTop: RPW(5),
+        flexDirection: 'row',
+        justifyContent: 'space-around',
         alignItems: 'center',
-        marginHorizontal: RPW(3),
-        marginTop: RPW(4),
-        marginBottom: RPW(15),
+        paddingHorizontal: RPW(3),
+        paddingBottom: RPH(3),
     },
     priceContainer: {
-        flex: 1, 
-    },
-    priceRow: {
+      
         flexDirection: 'row',
         alignItems: 'center',
     },
-    priceText: {
-        marginLeft:RPW(5),
+    priceLabel: {
+        textAlign:"center",
         color: 'white',
-        fontSize: RPW(5),
+        fontSize: RPW(3),
+        fontFamily: 'Poppins-Bold',
     },
-    dolarSymbol: {
-        fontFamily: "Poppins-Bold",
-        color: "orange",
-        fontSize: RPW(5),
-        marginLeft: RPW(2),
+    priceRow: {
+
+        flexDirection: 'row',
+        alignItems: 'baseline',
+        lineHeight:RPH(5),
+        // marginLeft: RPW(1),
+    },
+    dollarSymbol: {
+        color: 'orange',
+        fontSize: RPW(6),
+        fontFamily: 'Poppins-Bold',
     },
     price: {
-        fontFamily: "Poppins-Bold",
-        color: "white",
-        fontSize: RPW(5),
-        marginLeft: RPW(2),
+        color: 'white',
+        fontSize: RPW(6),
+        fontFamily: 'Poppins-Bold',
+        marginLeft: RPW(1),
     },
     button: {
-        flex: 1, 
-        backgroundColor: "orange",
+
+        backgroundColor: '#FF9700',
+        paddingVertical: RPW(2.5),
+       
+        // paddingHorizontal: RPW(4),
+        borderRadius: RPW(4),
+        width: RPW(53),
         height: RPH(7),
-        borderRadius: RPW(5),
-        justifyContent: "center",
         alignItems: "center",
-        paddingHorizontal: RPW(4),
+        justifyContent: "center",
     },
     buttonText: {
-        textAlign:"center",
-        fontSize: RPW(4.5),
-        fontFamily: "Poppins-Bold",
-        color: "white",
+        color: 'white',
+        alignSelf: "center",
+        fontSize: RPW(5),
+        fontWeight:"900",
+        // fontFamily: 'Poppins-Bold',
+        textAlignVertical: "center",
+        justifyContent: "center",
+        
+
     },
 });
 

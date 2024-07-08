@@ -8,25 +8,23 @@ import PaymentScreen from '../screen/PaymentScreen';
 import FavouriteScreen from '../screen/FavouriteScreen';
 import HomeScreen from '../screen/HomeScreen';
 import DetailScreen from '../screen/DetailsScreen';
-
+import store from '../components/redux/store'
+import { Provider } from 'react-redux';
 const Stack = createStackNavigator();
 
 const Stacknavigation = () => {
     return (
+        <Provider store={store}>
         <NavigationContainer>
             <Stack.Navigator screenOptions={{headerShown: false }}>
                 <Stack.Screen
                     name="tabs"
-                    component={Navigationtabs}
-                    // options={{ headerShown: false }}
+                    component={Navigationtabs}    
                 />    
                 <Stack.Screen
                     name="DetailsScreen"
                     component={DetailScreen}
-                // options={{ headerShown: false }}
                 />
-
-                
                 <Stack.Screen
                     name='PaymentScreen'
                     component={PaymentScreen}
@@ -43,12 +41,13 @@ const Stacknavigation = () => {
                 
             </Stack.Navigator>
         </NavigationContainer>
+        </Provider>
     );
 }
 
 const styles = {
     backButtonText: {
-        color: 'white', // Customize as needed
+        color: 'white', 
         fontSize: 16,
         marginLeft: 10,
     },

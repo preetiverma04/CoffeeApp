@@ -9,20 +9,16 @@ import imagesPath from '../components/PaymentScreenImagePath/imagesPath';
 import CustomButton from '../components/CustomButton';
 import { RPH, RPW } from '../components/ScreenSize';
 import { useNavigation } from '@react-navigation/native';
-
 const PaymentScreen = () => {
     const navigation = useNavigation();
     const [isModalVisible, setModalVisible] = useState(false);
     const priceItem = FavouriteData[0];
-
     const handlePaymentButtonPress = () => {
         setModalVisible(true);
     };
-
     const closeModal = () => {
         setModalVisible(false);
     };
-
     return (
         <ScrollView style={{ flex: 1, backgroundColor: "#0C0F14" }}>
             <View style={styles.outerPaymentContainer}>
@@ -71,7 +67,7 @@ const PaymentScreen = () => {
                     <CustomPaymentButton img={imagesPath.amazon} text="Amazon" />
                 </View>
                 <View style={styles.priceContainer}>
-                    <Text style={{ color: 'white', fontSize: RPW(4) }}>{priceItem.priceText}</Text>
+                    <Text style={{ color: 'white', fontSize: RPW(4), marginLeft:RPW(2),marginTop:RPH(2)}}>{priceItem.priceText}</Text>
                     <View style={styles.priceRow}>
                         <View style={styles.priceDetail}>
                             <Text style={styles.dollarSign}>
@@ -212,14 +208,15 @@ const styles = StyleSheet.create({
         alignItems: 'center',
     },
     dollarSign: {
-        fontFamily: "Poppins-Medium",
+        fontFamily: "Poppins-Bold",
         fontWeight: '600',
         color: 'orange',
         fontSize: RPW(5),
         marginRight: RPW(1),
     },
     priceText: {
-        fontFamily:"Poppins-Medium",
+        
+        fontFamily: "Poppins-Bold",
         fontWeight:'600',
         color: 'white',
         fontSize: RPW(5),
@@ -227,7 +224,7 @@ const styles = StyleSheet.create({
     customButton: {
 
         backgroundColor: 'orange',
-        width: RPW(50),
+        width: RPW(53),
         borderRadius: RPW(5),
         height: RPH(7),
         marginHorizontal: RPW(5),

@@ -12,7 +12,7 @@ const CustomButton = (props:any) => {
 }
 const styles=StyleSheet.create({
     CustomButtonStyles:{
-        width:RPW(45),
+        width:RPW(50),
         height:RPH(7),
         backgroundColor:"orange",
         justifyContent:"center",
@@ -21,7 +21,8 @@ const styles=StyleSheet.create({
 
     },
     Custumbuttontext:{
-        fontSize:RPW(3),
+        fontWeight:"700",
+        fontSize:RPW(3.7),
         color:"white",
         textAlign:"center",
         justifyContent:"center",

@@ -177,7 +177,7 @@ const styles = StyleSheet.create({
         fontFamily:"Poppins-Bold",
         fontWeight: "700",
         fontSize: RPW(5),
-        color: "#D17842",
+        color: "orange",
         marginRight: RPW(0.5),
     },
     price: {
@@ -228,18 +228,19 @@ const styles = StyleSheet.create({
         textAlign:"center",
         fontFamily:"Poppins-Bold",
         fontSize:RPW(5),
-        color: "#D17842",
+        color: "orange",
     },
     customButtonStyle: {
         textAlignVertical:"center",
         fontFamily:"Poppins-Bold",
-        width: RPW(80),
-        height: RPH(7),
+        marginHorizontal:RPW(5),
+        width: RPW(90),
+        height: RPH(7.5),
         alignItems: "center",
         justifyContent: "center",
         alignSelf: "center",
         textAlign: "center",
-        fontSize: RPW(4),
+        fontSize: RPW(4.5),
     },
     modalContainer: {
         flex: 1,
@@ -289,7 +290,7 @@ const styles = StyleSheet.create({
         marginRight: RPW(4),
     },
     sizeText: {
-        fontFamily:"Poppins-Bold",
+        fontFamily:"Poppins-Medium",
         fontSize:RPH(3),
         textAlignVertical: "center",
         color: "white",
@@ -298,8 +299,8 @@ const styles = StyleSheet.create({
         flex: 1,
         flexDirection: "row",
         alignItems: "center",
-        justifyContent: 'space-between', // Distributes extra space evenly
-        paddingHorizontal: RPW(4), // Adds padding to left and right
+        justifyContent: 'space-between', 
+        paddingHorizontal: RPW(4), 
     },
     priceDetailItem: {
         // backgroundColor: '#0C0F14',
@@ -308,7 +309,7 @@ const styles = StyleSheet.create({
        
     },
     bottomPrice: {
-        fontFamily:"Poppins-Bold",
+        fontFamily:"Poppins-Medium",
         fontWeight: "700",
         fontSize: RPW(5),
         color: "white",
@@ -317,7 +318,7 @@ const styles = StyleSheet.create({
         fontFamily: "Poppins-Bold",
         fontWeight: "700",
         fontSize: RPW(5.5),
-        color: "#D17842",
+        color: "orange",
     },
     quantity: {
         fontFamily: "Poppins-Bold",

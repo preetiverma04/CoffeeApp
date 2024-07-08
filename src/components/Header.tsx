@@ -1,9 +1,17 @@
 import React from 'react';
-import { View, Text, StyleSheet } from 'react-native';
+import { View, Text, StyleSheet, Button } from 'react-native';
 import TopimgHome1Svg from '../assets/images/homeScreensvg/TopimgHome1Svg';
 import PersonHomeScreenSvg from '../assets/images/homeScreensvg/PersonHomeScreenSvg';
 import { RPW, RPH } from './ScreenSize';
+import { useDispatch } from 'react-redux';
+import { addToFavourite } from './redux/Action';
 const Header = (props:any) => {
+    
+    const dispatch = useDispatch()
+    // const newRedux =()=>{
+    //     dispatch(addToFavourite('sdfkjakjfsda'))
+
+    // }
     return (
         <View style={styles.outerTopHeader}>
             <View style={styles.innerTopHomeView}>
@@ -12,7 +20,7 @@ const Header = (props:any) => {
             <Text style={styles.headerText}>{props.text}</Text>
             {/* <Text style={styles.headerText}>{props.text2}</Text> */}
             <View style={styles.personHomeView}>
-                <PersonHomeScreenSvg />
+                <PersonHomeScreenSvg style={{borderRadius:RPW(2)}}/>
             </View>
         </View>
     );
@@ -28,12 +36,13 @@ const styles = StyleSheet.create({
     },
     innerTopHomeView: {
         justifyContent: 'center',
-        backgroundColor: 'grey',
-        width: RPW(9),
-        height: RPH(5),
+        backgroundColor: '#21262E',
+        width: RPW(12),
+        height: RPH(6),
         // borderColor: 'grey',
         borderWidth: 2,
-        borderRadius: RPW(2),
+        borderRadius: RPW(3),
+      
         alignItems: 'center',
     },
     headerText: {
@@ -45,10 +54,10 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         width: RPW(9),
         height: RPH(5),
-        // borderColor: 'grey',
-        borderWidth: 2,
-        // backgroundColor: 'grey',
-        borderRadius: RPW(2),
+       
+      
+       
+       
         alignItems: 'center',
     },
 });

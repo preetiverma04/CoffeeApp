@@ -4,11 +4,14 @@ import { RPW, RPH } from '../components/ScreenSize';
 import Header from '../components/Header';
 import FavouriteData from '../components/Data/FavouriteData';
 import LinearGradient from 'react-native-linear-gradient';
+import { useNavigation, useRoute } from '@react-navigation/native';
+import { useSelector } from 'react-redux';
+// import { useSelector, UseSelector } from 'react-redux';
 interface FavouriteItem {
     image: any;
     title: string;
     subtitle: string;
-    imageCoffeeicon: any;
+    imageCoffeeIcon: any;
     CoffeeIconText: any;
     milkIconText: any;
     imageMilkIcon: any;
@@ -25,12 +28,18 @@ interface FavouriteItem {
     buttonText: String;
 }
 const FavouriteScreen = () => {
+    const favouriteItems = useSelector((state) => state.Favourites.favourites);
+    
+    const navigation = useNavigation();
     const [selectedSize, setSelectedSize] = useState("");
-    const handleSizePress = (size: string) => {
-        setSelectedSize(size);
-    };
+   
+    console.log('===================favouriteItems=================');
+    console.log(favouriteItems);
+    console.log('====================================');
+   
     const renderItem = ({ item }: { item: FavouriteItem }) => {
         return (
+           
             <View style={styles.outerContainer}>
                 <LinearGradient
                     colors={['#262B33', '#262B33', 'black']}
@@ -39,6 +48,13 @@ const FavouriteScreen = () => {
                     style={{ flex: 1 }} >
                     <View style={styles.outerContainer2}>
                         <ImageBackground source={item.image} style={styles.image}>
+                            <TouchableOpacity style={styles.likeIconContainer}>
+                                
+                                <Image
+                                    source={require("../assets/images/pnggimagesFavouriteScreen/likeIcon1.png")}
+                                    style={styles.likeIcon}
+                                />
+                            </TouchableOpacity>
                             <View style={styles.innerContainer1}>
                                 <View style={styles.innerConatiner2}>
                                     <View>
@@ -47,7 +63,7 @@ const FavouriteScreen = () => {
                                     </View>
                                     <View style={styles.iconContainerouter}>
                                         <View style={styles.iconContainer}>
-                                            <Image source={item.imageCoffeeicon} style={styles.icon} />
+                                            <Image source={item.imageCoffeeIcon} style={styles.icon} />
                                             <Text style={styles.IconContainerText}>{item.CoffeeIconText}</Text>
                                         </View>
                                         <View style={[styles.iconContainer, { marginLeft: RPW(2) }]}>
@@ -72,7 +88,6 @@ const FavouriteScreen = () => {
                                 </View>
                             </View>
                         </ImageBackground>
-
                         <View style={styles.descriptionContainer}>
                             <Text style={styles.DescriptionHeader}>{item.DescriptionHeading}</Text>
                             <Text style={styles.Description}>{item.Description}</Text>
@@ -80,12 +95,14 @@ const FavouriteScreen = () => {
                     </View>
                 </LinearGradient>
             </View>
+           
         );
     };
     return (
         <View style={styles.container}>
             <FlatList
-                data={FavouriteData}
+                data={favouriteItems}
+                // data={favouriteItems}
                 renderItem={renderItem}
                 keyExtractor={(item, index) => index.toString()}
                 contentContainerStyle={styles.contentContainerstyles}
@@ -106,18 +123,28 @@ const styles = StyleSheet.create({
         flex: 1,
         backgroundColor: "#0C0F14",
     },
+    likeIconContainer: {
+        position: 'absolute',
+        top: RPW(3),
+        right: RPW(3),
+        borderRadius: RPW(10),
+        padding: RPW(2),
+    },
+    likeIcon: {
+        width: RPW(10),
+        height: RPW(10),
+    },
     outerContainer: {
         borderRadius: RPW(10),
         marginVertical: RPW(2),
         marginHorizontal: RPW(5),
         overflow: 'hidden',
-        // marginBottom: RPW(15),
+     
     },
     outerContainer2: {
         // Additional styles if needed
     },
     image: {
-        borderRadius: RPW(20),
         flex: 1,
         width: '100%',
         height: RPH(50),
@@ -129,7 +156,7 @@ const styles = StyleSheet.create({
         width: '100%',
         height: RPH(20),
         backgroundColor: 'rgba(0, 0, 0, 0.6)',
-        paddingVertical: RPW(2),
+        paddingVertical: RPW(3),
         paddingHorizontal: RPW(3),
     },
     text: {
@@ -160,7 +187,7 @@ const styles = StyleSheet.create({
         borderRadius: RPW(3),
         width: RPW(13),
         height: RPH(6),
-        backgroundColor: "#141921",
+        backgroundColor: "#0C0F14",
         justifyContent: "center",
         alignItems: "center",
     },
@@ -173,12 +200,12 @@ const styles = StyleSheet.create({
         fontSize: RPW(2.0),
     },
     starIcon: {
+        tintColor: "orange",
         marginTop: RPH(1),
         width: RPW(6),
         height: RPH(3),
     },
     RatingTextConatinerOuter: {
-
         flexDirection: "row",
         justifyContent: "space-between",
     },
@@ -189,7 +216,7 @@ const styles = StyleSheet.create({
         width: '100%',
     },
     ratingInfo: {
-
+       
         flexDirection: 'row',
         alignItems: 'center',
     },
@@ -210,12 +237,12 @@ const styles = StyleSheet.create({
         fontWeight: "400",
     },
     mediumRoastedButton: {
-        width: RPW(40),
-        height: RPH(7),
+        width: RPW(35),
+        height: RPH(6),
         justifyContent: "center",
         alignItems: "center",
         borderRadius: RPW(2),
-        backgroundColor: "#141921",
+        backgroundColor: "#0C0F14",
     },
     buttonTextRoastedButton: {
         fontFamily: "Poppins-Medium",
@@ -225,9 +252,8 @@ const styles = StyleSheet.create({
         fontSize: RPW(3),
     },
     descriptionContainer: {
-       
         paddingHorizontal: RPW(2),
-        paddingVertical: RPH(3),
+        paddingVertical: RPH(2),
         // paddingHorizontal: RPW(5), 
     },
     DescriptionHeader: {

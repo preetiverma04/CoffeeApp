@@ -2,13 +2,7 @@ import React from 'react'
 import { StyleSheet } from 'react-native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import HomeScreen from '../screen/HomeScreen';
-// import PaymentScreen from '../screen/PaymentScreen';
-import { NavigationContainer } from '@react-navigation/native';
 import CartScreen from '../screen/CartScreen';
-// import Icon from 'react-native-vector-icons/Ionicons';
-// import Navigationpath from '../screen/Navigationpath';
-// import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
-// import { SafeAreaView } from 'react-native-safe-area-context';
 import { BlurView } from '@react-native-community/blur';
 import FavouriteScreen from '../screen/FavouriteScreen';
 import OrderHistoryScreen from '../screen/OrderHistoryScreen';
@@ -22,11 +16,14 @@ const Navigationtabs = () => {
     return (
         <Tabsbottom.Navigator
             screenOptions={{
+                tabBarHideOnKeyboard:true,
                 tabBarStyle: {
+                    borderTopWidth:0,
+                    borderTopColor:"transparent",
+                    height:RPW(15),
                     backgroundColor: 'rgba(0, 0, 0, 0.7)', 
                     position: 'absolute',
-                  
-                    elevation: 0,
+                    elevation:0,
                 },
                 tabBarActiveTintColor: 'white',
                 tabBarInactiveTintColor: 'grey',
@@ -44,33 +41,31 @@ const Navigationtabs = () => {
                     tabBarLabel: 'Home',
                     headerShown: false,
                     tabBarIcon: ({ focused, size }) => {
-                        const color = focused ? '#D17842' : 'grey'
-
+                        const color = focused ? 'orange' : 'grey'
                         return (
-                            <Homesvg color={color} width={RPW(5)} height={RPW(5)} />
+                            <Homesvg color={color} style={{ transform: [{ scale: 0.4}] }} />
                         )
                     }}} />
             <Tabsbottom.Screen name='Cart' component={CartScreen}
                 options={{
-                    // tabBarLabel: 'Cart',
+                    tabBarLabel: 'Cart',
                     headerShown: false,
                     tabBarIcon: ({ focused, size }) => {
-
-                        const color = focused ? '#D17842' : 'grey'
+                        const color = focused ? 'orange' : 'grey'
                         return (
-                            <Cartsvg color={color} width={RPW(5)} height={RPW(5)} />
+                            <Cartsvg color={color} style={{ transform: [{ scale: 0.4 }] }} />
                         )
                     }
                 }}
             />
             <Tabsbottom.Screen name='Favourite' component={FavouriteScreen}
                 options={{
-                    // tabBarLabel:'Favourite',
+                
                     headerShown: false,
                     tabBarIcon: ({ focused, size }) => {
-                        const color = focused ? '#D17842' : 'grey'
+                        const color = focused ? 'orange' : 'grey'
                         return (
-                            <Favouritesvg color={color} width={RPW(5)} height={RPW(5)} />
+                            <Favouritesvg color={color} style={{ transform: [{ scale: 0.4 }] }} />
                         )
                     }
                 }
@@ -80,9 +75,9 @@ const Navigationtabs = () => {
                     headerShown: false,
                     tabBarIcon: ({ focused, size }) => {
 
-                        const color = focused ? '#D17842' : 'grey'
+                        const color = focused ? 'orange' : 'grey'
                         return (
-                            <Ordernotification color={color} width={RPW(5)} height={RPW(5)} />
+                            <Ordernotification color={color} style={{ transform: [{ scale: 0.4 }] }} />
                         )
                     }
                 }}

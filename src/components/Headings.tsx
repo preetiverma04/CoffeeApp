@@ -11,11 +11,11 @@ const Headings = () => {
 const headingsTextStyle=StyleSheet.create({
     HeadingsText:{
         // marginTop:RPH(2),
-       fontFamily:"Poppins-Bold",
-       fontWeight:"600",
+       fontFamily:"Poppins-Medium",
+       fontWeight:"bold",
        marginLeft:RPW(5),
         color:"white",
-        fontSize:RPW(7),
+        fontSize:RPW(8),
         lineHeight:RPW(10),
     }
 
