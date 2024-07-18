@@ -4,20 +4,18 @@ import { RPW,RPH } from "./ScreenSize";
 const Headings = () => {
     return (
         <>
-            <Text style={headingsTextStyle.HeadingsText}>Find the best {"\n"}Coffee for you</Text>
+            <Text style={headingsTextStyle.HeadingsText}>Find The Best {"\n"}Coffee For You</Text>
         </>
     );
 }
 const headingsTextStyle=StyleSheet.create({
     HeadingsText:{
-        // marginTop:RPH(2),
        fontFamily:"Poppins-Medium",
-       fontWeight:"bold",
+       fontWeight:"700",
        marginLeft:RPW(5),
-        color:"white",
-        fontSize:RPW(8),
-        lineHeight:RPW(10),
+       color:"white",
+       fontSize:RPW(9),
+       lineHeight:RPW(12),
     }
-
 })
 export default Headings;

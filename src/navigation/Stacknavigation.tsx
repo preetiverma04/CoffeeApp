@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { createStackNavigator } from '@react-navigation/stack';
 import { NavigationContainer } from '@react-navigation/native';
 import { Text,TouchableOpacity} from 'react-native';
@@ -10,13 +10,16 @@ import HomeScreen from '../screen/HomeScreen';
 import DetailScreen from '../screen/DetailsScreen';
 import store from '../components/redux/store'
 import { Provider } from 'react-redux';
+import SplashScreen from '../screen/SplashScreen';
 const Stack = createStackNavigator();
 
 const Stacknavigation = () => {
+    
     return (
         <Provider store={store}>
         <NavigationContainer>
             <Stack.Navigator screenOptions={{headerShown: false }}>
+                    <Stack.Screen name="SplashScreen" component={SplashScreen} />
                 <Stack.Screen
                     name="tabs"
                     component={Navigationtabs}    
@@ -25,6 +28,10 @@ const Stacknavigation = () => {
                     name="DetailsScreen"
                     component={DetailScreen}
                 />
+                    <Stack.Screen
+                        name="CartScreen"
+                        component={CartScreen}
+                    />
                 <Stack.Screen
                     name='PaymentScreen'
                     component={PaymentScreen}

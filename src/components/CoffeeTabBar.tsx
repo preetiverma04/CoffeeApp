@@ -4,8 +4,12 @@ import { CoffeeTabData, Coffeedata, CoffeBeansData } from './Data/CoffeeTabData'
 import { RPH, RPW } from './ScreenSize';
 import LinearGradient from 'react-native-linear-gradient';
 import { useNavigation } from '@react-navigation/native';
-
+import { useDispatch } from 'react-redux';
+import { addToCart } from '../components/redux/Action';
+import imagesPath from './ImagePath/imagesPath';
+import colors from '../utils/Colors';
 const CoffeeTabBar = ({ searchTab = '' }) => {
+    const dispatch=useDispatch()
     const [filteredCoffeeData, setFilteredCoffeeData] = useState(Coffeedata);
     const [selectedTab, setSelectedTab] = useState<string>("All");
     const navigation = useNavigation();
@@ -34,13 +38,12 @@ const CoffeeTabBar = ({ searchTab = '' }) => {
         };
         setFilteredCoffeeData(filterData());
     }, [searchTab,selectedTab]);
-    const star = require("../assets/images/pnggimagesFavouriteScreen/starIcon.png");
     const renderTabItem = ({ item }: { item: string }) => (
         <View style={styles.tabItemContainer}>
             <Pressable
                 onPress={() => handlePress(item)}
                 disabled={selectedTab === item}>
-                <Text style={[styles.tabItem, { color: selectedTab === item ? 'orange' : 'white' }]}>
+                <Text style={[styles.tabItem, { color: selectedTab === item ? colors.copperRed : colors.textTitleLight }]}>
                     {item}
                 </Text>
                 {selectedTab === item && (
@@ -63,7 +66,7 @@ const CoffeeTabBar = ({ searchTab = '' }) => {
                     <ImageBackground source={item.image} style={styles.coffeeImage} imageStyle={styles.coffeeImageStyle}>
                         <View style={styles.ratingContainer}>
                             <View style={styles.ratingInnerContainer}>
-                                <Image source={star} style={styles.starIcon} />
+                                <Image source={imagesPath.star} style={styles.starIcon} />
                                 <Text style={styles.ratingText}> 2.57</Text>
                             </View>
                         </View>
@@ -76,9 +79,9 @@ const CoffeeTabBar = ({ searchTab = '' }) => {
                                 {item.dolarSymbol}
                                 <Text style={styles.currency}> {item.price}</Text>
                             </Text>
-                            <View style={styles.symbolContainer}>
-                                <Text style={styles.symbol}>{item.symbolplus}</Text>
-                            </View>
+                            <Pressable onPress={() => dispatch(addToCart(item))}>
+                                <Image source={imagesPath.plusicon} style={styles.Plusicon} />
+                            </Pressable>
                         </View>
                     </View>
                 </View>
@@ -102,7 +105,7 @@ const CoffeeTabBar = ({ searchTab = '' }) => {
                         imageStyle={styles.coffeeImageStyle}>
                         <View style={styles.ratingContainer}>
                             <View style={styles.ratingInnerContainer}>
-                                <Image source={star} style={styles.starIcon} />
+                                <Image source={imagesPath.star} style={styles.starIcon} />
                                 <Text style={styles.ratingText}> 2.40</Text>
                             </View>
                         </View>
@@ -111,14 +114,15 @@ const CoffeeTabBar = ({ searchTab = '' }) => {
                         <Text style={styles.coffeeTitle}>{item.title}</Text>
                         <Text style={styles.coffeeSubtitle}>{item.subtitle}</Text>
                         <View style={styles.priceSymbolContainer}>
-                            <Text style={styles.coffeePrice}>
-
-                                {item.dolarSymbol}
-                                <Text style={styles.currency}> {item.price}</Text>
+                            <Text style={styles.coffeePrice}>{item.dolarSymbol}
+                                <Text style={styles.currency}>{item.price}</Text>
                             </Text>
-                            <View style={styles.symbolContainer}>
+                            {/* <View style={styles.symbolContainer}>
                                 <Text style={styles.symbol}>{item.symbol}</Text>
-                            </View>
+                            </View> */}
+                            <Pressable onPress={() => dispatch(addToCart(item))}>
+                                <Image source={imagesPath.plusicon} style={styles.Plusicon} />
+                            </Pressable>
                         </View>
                     </View>
                 </View>
@@ -141,6 +145,7 @@ const CoffeeTabBar = ({ searchTab = '' }) => {
                 data={filteredCoffeeData}
                 renderItem={({ item }) => renderCoffeeItem({ item })}
                 keyExtractor={(item, index) => `coffee-${index}`}
+                
                 showsHorizontalScrollIndicator={false}
                 showsVerticalScrollIndicator={false}
                 contentContainerStyle={styles.coffeeContainer}
@@ -160,23 +165,30 @@ const CoffeeTabBar = ({ searchTab = '' }) => {
 };
 
 const styles = StyleSheet.create({
-    container: {},
+    Plusicon: {
+        marginHorizontal:RPW(2),
+        width: RPW(9), 
+        height: RPH(4.5)
+
+    },
+    container:{},
     tabItemContainer: {
         justifyContent: "space-between",
     },
     tabItem: {
         marginHorizontal: RPW(5),
-        fontSize: RPW(5),
+        fontSize: RPW(4.5),
+        fontWeight: "400",
         fontFamily: 'Poppins-Medium',
-        color: 'white',
+        color: colors.textTitleLight,
     },
     indicator: {
         alignSelf: "center",
-        marginTop: RPW(1),
+        marginTop: RPW(2),
         width: RPW(3),
         height: RPW(3),
         borderRadius: RPW(1.5),
-        backgroundColor: 'orange',
+        backgroundColor: colors.copperRed,
     },
     tabContainer: {
         paddingBottom: RPH(2),
@@ -185,8 +197,8 @@ const styles = StyleSheet.create({
         marginTop: RPH(2),
         flex: 1,
         marginHorizontal: RPW(5),
-        width: RPW(42),
-        height: RPH(35),
+        width: RPW(45),
+        height: RPH(37),
         borderRadius: RPW(5),
         marginRight: RPW(3),
         overflow: 'hidden',
@@ -196,10 +208,10 @@ const styles = StyleSheet.create({
     },
     coffeeImage: {
         flex: 1,
-        marginHorizontal: RPW(3),
-        marginVertical: RPH(2),
-        width: RPW(35),
-        height: RPW(35),
+        marginHorizontal: RPW(4),
+        marginVertical: RPH(2.5),
+        width: RPW(37),
+        height: RPW(37),
     },
     coffeeImageStyle: {
         borderRadius: RPW(5),
@@ -207,10 +219,10 @@ const styles = StyleSheet.create({
     ratingContainer: {
         backgroundColor: 'rgba(0, 0, 0, 0.5)',
         alignSelf: "flex-end",
-        width: RPW(20),
-        height: RPH(3.5),
+        width: RPW(17),
+        height: RPH(3.6),
         borderTopRightRadius: RPW(5),
-        borderBottomLeftRadius: RPW(6),
+        borderBottomLeftRadius: RPW(6.2),
         flexDirection: 'row',
         alignItems: 'center',
     },
@@ -221,15 +233,15 @@ const styles = StyleSheet.create({
         marginVertical: RPH(0.3),
     },
     starIcon: {
-        tintColor:"orange",
-        width: RPW(5),
-        height: RPW(5),
+        tintColor:"#D17842",
+        width: RPW(4.9),
+        height: RPW(4.9),
     },
     ratingText: {
         textAlignVertical: "center",
         textAlign: "center",
         fontSize: RPW(3.5),
-        color: 'white',
+        color: colors.textTitleLight,
         fontFamily: 'Poppins-Medium',
     },
     coffeeInfoContainer: {
@@ -241,11 +253,12 @@ const styles = StyleSheet.create({
     },
     coffeeTitle: {
         flex: 1,
-        marginBottom: RPW(0),
-        fontSize: RPW(5.3),
-        fontWeight: "400",
-        fontFamily: 'Poppins-Bold',
-        color: 'white',
+        
+        fontFamily: 'Poppins-Medium',
+        fontWeight: "500",
+        fontSize: RPW(4.8),
+        
+        color: colors.textTitleLight,
     },
     coffeeSubtitle: {
         flex: 1,
@@ -253,25 +266,26 @@ const styles = StyleSheet.create({
         fontWeight: "600",
         fontSize: RPW(2.6),
         fontFamily: 'Poppins-Medium',
-        color: 'white',
+        color: colors.textSubtitle,
     },
     priceSymbolContainer: {
         
         flexDirection: 'row',
         alignItems: 'center',
         justifyContent: 'space-between',
+        // marginHorizontal:RPW(2),
     },
     coffeePrice: {
         fontSize: RPW(5.5),
         fontFamily: 'Poppins-Bold',
         fontWeight: '600',
-        color: 'orange',
+        color: colors.copperRed,
     },
     currency: {
         fontWeight: '600',
         fontSize: RPW(5.5),
-        fontFamily: 'Poppins-Bold',
-        color: 'white',
+        fontFamily: 'Poppins-Medium',
+        color: colors.textTitleLight,
     },
     symbolContainer: {
         width: RPW(9),
@@ -279,21 +293,21 @@ const styles = StyleSheet.create({
         borderRadius: RPW(2),
         justifyContent: 'center',
         alignItems: 'center',
-        backgroundColor: 'orange',
+        backgroundColor: colors.copperRed,
     },
     symbol: {
         fontSize: RPW(7),
         // fontWeight:"600",
         textAlign: 'center',
         fontFamily: 'Poppins-Medium',
-        color: 'white',
+        color: colors.textTitleLight,
     },
     coffeeBeansText: {
         marginVertical: RPH(2),
         fontSize: RPW(5),
-        fontFamily: 'Poppins-Bold',
-        color: 'white',
-        marginLeft: RPW(5),
+        fontFamily: 'Poppins-Medium',
+        color: colors.textTitleLight,
+        marginLeft: RPW(6),
     },
     coffeeContainer: {
         paddingBottom: RPW(3),

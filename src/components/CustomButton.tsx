@@ -14,7 +14,7 @@ const styles=StyleSheet.create({
     CustomButtonStyles:{
         width:RPW(50),
         height:RPH(7),
-        backgroundColor:"orange",
+        backgroundColor:"#D17842",
         justifyContent:"center",
         alignItems:"center",
         borderRadius:RPW(5),

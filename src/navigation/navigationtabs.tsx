@@ -11,6 +11,7 @@ import Cartsvg from '../assets/navigationIconsvg/Cartsvg';
 import Favouritesvg from '../assets/navigationIconsvg/Favouritesvg';
 import Ordernotification from '../assets/navigationIconsvg/Ordernotificationsvg';
 import { RPW } from '../components/ScreenSize';
+import colors from '../utils/Colors';
 const Tabsbottom = createBottomTabNavigator();
 const Navigationtabs = () => {
     return (
@@ -21,12 +22,12 @@ const Navigationtabs = () => {
                     borderTopWidth:0,
                     borderTopColor:"transparent",
                     height:RPW(15),
-                    backgroundColor: 'rgba(0, 0, 0, 0.7)', 
+                    backgroundColor: 'rgba(0, 0, 0, 0.3)', 
                     position: 'absolute',
                     elevation:0,
                 },
                 tabBarActiveTintColor: 'white',
-                tabBarInactiveTintColor: 'grey',
+                tabBarInactiveTintColor: 'colors.textSubtitle',
                 tabBarShowLabel: false,
                 tabBarBackground: () => (
                     <BlurView
@@ -41,7 +42,7 @@ const Navigationtabs = () => {
                     tabBarLabel: 'Home',
                     headerShown: false,
                     tabBarIcon: ({ focused, size }) => {
-                        const color = focused ? 'orange' : 'grey'
+                        const color = focused ? colors.copperRed : colors.textSubtitle
                         return (
                             <Homesvg color={color} style={{ transform: [{ scale: 0.4}] }} />
                         )
@@ -51,7 +52,7 @@ const Navigationtabs = () => {
                     tabBarLabel: 'Cart',
                     headerShown: false,
                     tabBarIcon: ({ focused, size }) => {
-                        const color = focused ? 'orange' : 'grey'
+                        const color = focused ? colors.copperRed : colors.textSubtitle
                         return (
                             <Cartsvg color={color} style={{ transform: [{ scale: 0.4 }] }} />
                         )
@@ -63,7 +64,7 @@ const Navigationtabs = () => {
                 
                     headerShown: false,
                     tabBarIcon: ({ focused, size }) => {
-                        const color = focused ? 'orange' : 'grey'
+                        const color = focused ? colors.copperRed : colors.textSubtitle
                         return (
                             <Favouritesvg color={color} style={{ transform: [{ scale: 0.4 }] }} />
                         )
@@ -75,7 +76,7 @@ const Navigationtabs = () => {
                     headerShown: false,
                     tabBarIcon: ({ focused, size }) => {
 
-                        const color = focused ? 'orange' : 'grey'
+                        const color = focused ? colors.copperRed : colors.textSubtitle
                         return (
                             <Ordernotification color={color} style={{ transform: [{ scale: 0.4 }] }} />
                         )

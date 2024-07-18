@@ -22,7 +22,7 @@ const Coffeedata = [
         buttonText: "Add to Cart",
         likeIcon: require("../../assets/images/pnggimagesFavouriteScreen/likeIcon.png"),
         symbol: "+",
-         symbolminus: "-",
+        symbolminus: "-",
         symbolplus: "+",
     },
     {

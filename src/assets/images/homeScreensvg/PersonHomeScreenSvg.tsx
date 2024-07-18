@@ -13,7 +13,7 @@ const PersonHomeScreenSvg = (props: SvgProps) => (
         width={props.width}
         height={props.height}
         fill={props.color}
-        viewBox="0 0 28 28" 
+        viewBox="0 0 29 29" 
         {...props}
     >
         <Mask id="b" fill={props.color}>

@@ -6,26 +6,19 @@ import { RPW, RPH } from './ScreenSize';
 import { useDispatch } from 'react-redux';
 import { addToFavourite } from './redux/Action';
 const Header = (props:any) => {
-    
     const dispatch = useDispatch()
-    // const newRedux =()=>{
-    //     dispatch(addToFavourite('sdfkjakjfsda'))
-
-    // }
     return (
         <View style={styles.outerTopHeader}>
             <View style={styles.innerTopHomeView}>
                 <TopimgHome1Svg />
             </View>
             <Text style={styles.headerText}>{props.text}</Text>
-            {/* <Text style={styles.headerText}>{props.text2}</Text> */}
             <View style={styles.personHomeView}>
-                <PersonHomeScreenSvg style={{borderRadius:RPW(2)}}/>
+                <PersonHomeScreenSvg />
             </View>
         </View>
     );
 }
-
 const styles = StyleSheet.create({
     outerTopHeader: {
         flexDirection: 'row',
@@ -37,11 +30,10 @@ const styles = StyleSheet.create({
     innerTopHomeView: {
         justifyContent: 'center',
         backgroundColor: '#21262E',
-        width: RPW(12),
-        height: RPH(6),
-        // borderColor: 'grey',
-        borderWidth: 2,
-        borderRadius: RPW(3),
+        width: RPW(11.5),
+        height: RPH(5.6),
+        
+        borderRadius: RPW(3.5),
       
         alignItems: 'center',
     },
@@ -51,14 +43,14 @@ const styles = StyleSheet.create({
         color: 'white', 
     },
     personHomeView: {
-        justifyContent: 'center',
-        width: RPW(9),
-        height: RPH(5),
        
+        width: RPW(10),
+        height: RPH(6),
       
        
        
-        alignItems: 'center',
+       
+        
     },
 });
 

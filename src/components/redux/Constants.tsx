@@ -1,2 +1,6 @@
 export const ADD_TO_FAVOURITE="Add_To_Favourite"
 export const ADD_TO_CART="Add_To_Cart"
+export const REMOVE_FROM_CART = "Remove_From_Cart"
+// export const PAYMENT_PRICE="Payment_Price"
+// export const UPDATE_VALUE="Update_Value"
+// export const REMOVE_VALUE="Remove_Value"

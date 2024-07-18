@@ -1,20 +1,27 @@
 // Actions.js
-import FavouriteData from "../Data/FavouriteData";
-import { ADD_TO_CART, ADD_TO_FAVOURITE } from "./Constants";
 
-export const addToFavourite = (item:any) => {
+import { ADD_TO_CART, ADD_TO_FAVOURITE, REMOVE_FROM_CART } from "./Constants";
+
+export const addToFavourite = (id:any) => {
     console.log('====================================');
-    console.log(item);
+    console.log(id);
     console.log('====================================');
     return {
         type: ADD_TO_FAVOURITE,
+        payload: id,
+    };
+}
+export const addToCart = (item: any) => {
+    return {
+        type: ADD_TO_CART,
         payload: item,
     };
 }
-export const addToCart=(item:any)=>{
-    return{
-        type:ADD_TO_CART,
-        payload:item,
-    }
+
+export const removeFromCart = (item: any) => {
+    return {
+        type: REMOVE_FROM_CART,
+       
+    };
 }
 
