@@ -12,10 +12,15 @@ import { useDispatch, useSelector } from 'react-redux';
 import { addToOrderHistory, removeFromCart } from '../components/redux/Action';
 const PaymentScreen = () => {
     
-    const calculateTotalPrice = (items: any[]) => {
-        return items.reduce((total, item) => {
-            const selectedPrice = item.prices.find(priceItem => priceItem.size === item.selectedSize)?.price || item.prices[0].price;
-            return total + (selectedPrice * (item.quantity || 1));
+    const calculateTotalPrice = () => {
+        return CartItems.reduce((total, item) => {
+            const prices = Array.isArray(item.prices) ? item.prices : [];
+            const quantity = item.prices?.find(price => price.size === item.selectedSize)?.quantity || item.prices?.[0]?.quantity || 0;
+            console.log('Item prices:', prices);
+            console.log('Selected size:', item.selectedSize);
+            const selectedPrice = prices.find(priceItem => priceItem.size === item.selectedSize)?.price || prices[0]?.price || 0;
+            console.log('Selected price:', selectedPrice);
+            return total + (selectedPrice * quantity);
         }, 0).toFixed(2);
     };
     const navigation = useNavigation();

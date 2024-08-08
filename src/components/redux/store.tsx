@@ -4,7 +4,8 @@ const store=configureStore({
     reducer:RootReducer,
     middleware: (getDefaultMiddleware) =>
         getDefaultMiddleware({
-            serializableCheck: false, 
+            immutableCheck: false, // Disable immutable state check
+            serializableCheck: false, // Optionally disable serializable check as well if needed
         }),
 });
 export default store;

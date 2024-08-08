@@ -10,7 +10,7 @@ import colors from '../utils/Colors';
 
 const Header = (props:any) => {
     const navigation=useNavigation();
-    console.log(navigation); 
+    // console.log(navigation); 
     return (
         <View style={styles.outerTopHeader}>
             <TouchableOpacity style={styles.innerTopHomeView} onPress={() => navigation.dispatch(DrawerActions.openDrawer())}>

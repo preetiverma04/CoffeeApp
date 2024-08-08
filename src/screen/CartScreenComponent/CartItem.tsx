@@ -5,8 +5,16 @@ import { RPH, RPW } from '../../components/ScreenSize';
 import colors from '../../utils/Colors';
 import imagesPath from '../../components/ImagePath/imagesPath';
 
-const CartItem = ({ item, quantity, onAdd, onMinus }) => {
+const CartItem = ({ item,  onAdd, onMinus }) => {
+    console.log('CartItem received item:', item);
+   
+
     const selectedPrice = item.prices?.find(price => price.size === item.selectedSize)?.price || item.prices?.[0]?.price || 0;
+   const quantity = item.prices?.find(price => price.size === item.selectedSize)?.quantity || item.prices?.[0]?.quantity || 0;
+    console.log('Selected Price:', selectedPrice);
+
+    // Ensure quantity is always a number
+    const displayQuantity = quantity !== undefined && quantity !== null ? quantity : 0;
 
     return (
         <View style={styles.itemWrapper}>
@@ -26,19 +34,19 @@ const CartItem = ({ item, quantity, onAdd, onMinus }) => {
                                     {item.dolarSymbol}
                                 </Text>
                                 <Text style={styles.priceCartText}>
-                                    {(selectedPrice * quantity).toFixed(2)}
-                                </Text>
+                                    {(selectedPrice)}
+                                </Text> 
                             </View>
                         </View>
 
                         <View style={styles.controlsContainer}>
-                            <Pressable onPress={() => onMinus(item.id)}>
+                            <Pressable onPress={() => onMinus(item.id,item.selectedSize)}>
                                 <Image source={imagesPath.minusicon} style={styles.icon} />
                             </Pressable>
                             <View style={styles.middleView}>
                                 <Text style={styles.middleViewText}>{quantity}</Text>
                             </View>
-                            <Pressable onPress={() => onAdd(item.id)}>
+                            <Pressable onPress={() => onAdd(item.id,item.selectedSize)}>
                                 <Image source={imagesPath.plusicon} style={styles.icon} />
                             </Pressable>
                         </View>

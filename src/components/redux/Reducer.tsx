@@ -11,11 +11,14 @@ import {
     REMOVE_FROM_FAVOURITE,
     UPDATE_ITEM_QUANTITY
 } from './Constants';
+
 const initialState = {
     favourites: [],
     Cart: [],
     OrderHistory: [],
 };
+
+// AsyncStorage helper functions
 const saveToFavouritesStorage = async (favourites: any[]) => {
     try {
         await AsyncStorage.setItem('favourites', JSON.stringify(favourites));
@@ -23,6 +26,7 @@ const saveToFavouritesStorage = async (favourites: any[]) => {
         console.error("Error saving favourites data to AsyncStorage", error);
     }
 };
+
 const saveToCartStorage = async (cart: any[]) => {
     try {
         await AsyncStorage.setItem('cart', JSON.stringify(cart));
@@ -30,19 +34,23 @@ const saveToCartStorage = async (cart: any[]) => {
         console.error("Error saving cart data to AsyncStorage", error);
     }
 };
-const saveToOrderHistoryStorage = async (orderHistory: never[]) => {
+
+const saveToOrderHistoryStorage = async (orderHistory: any[]) => {
     try {
         await AsyncStorage.setItem('orderHistory', JSON.stringify(orderHistory));
     } catch (error) {
         console.error("Error saving order history data to AsyncStorage", error);
     }
 };
+
+// Favourites Reducer
 export const Reducer = (state = initialState, action: { type: any; payload: any; }) => {
     switch (action.type) {
-        case INITIALIZE_FAVOURITE: return {
-            ...state,
-            favourites: action.payload,
-        };
+        case INITIALIZE_FAVOURITE:
+            return {
+                ...state,
+                favourites: action.payload,
+            };
         case ADD_TO_FAVOURITE:
             const updatedFavourite = state.favourites.filter(item => item.id !== action.payload.id);
             const newFavourites = [...updatedFavourite, { ...action.payload }];
@@ -62,9 +70,10 @@ export const Reducer = (state = initialState, action: { type: any; payload: any;
             return state;
     }
 };
-export const CartReducer = (state = initialState, action) => {
-    switch (action.type) {
 
+// Cart and Order History Reducer
+export const CartReducer = (state = initialState, action: { type: any; payload: any; }) => {
+    switch (action.type) {
         case INITIALIZE_CART:
             return {
                 ...state,
@@ -75,44 +84,52 @@ export const CartReducer = (state = initialState, action) => {
                 ...state,
                 OrderHistory: action.payload,
             };
-        case ADD_TO_CART:
-            const existingItemIndex = state.Cart.findIndex(item => item.id === action.payload.id);
-            let updatedCart;
-            if (existingItemIndex >= 0) {
-                updatedCart = state.Cart.map((item, index) =>
-                    index === existingItemIndex
+        case ADD_TO_CART: {
+            const cartAction = action.payload;
+            const existingItem = state.Cart.find(item => item.id === cartAction.id);
+
+            const updatedCart = existingItem
+                ? state.Cart.map(item =>
+                    item.id === cartAction.id
                         ? {
                             ...item,
                             prices: item.prices.map(priceItem =>
-                                priceItem.size === action.payload.size
-                                    ? { ...priceItem, quantity: (priceItem.quantity || 0) + (action.payload.quantity || 1) }
+                                priceItem.size === cartAction.selectedSize
+                                    ? { ...priceItem, quantity: (priceItem.quantity || 0) + (cartAction.quantity || 1) }
                                     : priceItem
                             ),
                         }
                         : item
-                );
-            } else {
-                updatedCart = [
+                )
+                : [
                     ...state.Cart,
                     {
-                        ...action.payload,
-                        prices: action.payload.prices.map(priceItem =>
-                            priceItem.size === action.payload.size
-                                ? { ...priceItem, quantity: action.payload.quantity || 1 }
+                        ...cartAction,
+                        prices: cartAction.prices.map(priceItem =>
+                            priceItem.size === cartAction.selectedSize
+                                ? { ...priceItem, quantity: cartAction.quantity || 1 }
                                 : priceItem
                         ),
                     },
                 ];
-            }
+
             saveToCartStorage(updatedCart);
             return {
                 ...state,
                 Cart: updatedCart,
             };
-        case UPDATE_ITEM_QUANTITY:
+        }
+        case UPDATE_ITEM_QUANTITY: {
             const updatedCartQuantity = state.Cart.map(item =>
                 item.id === action.payload.id
-                    ? { ...item, quantity: action.payload.quantity }
+                    ? {
+                        ...item,
+                        prices: item.prices.map(price =>
+                            price.size === action.payload.size
+                                ? { ...price, quantity: action.payload.quantity }
+                                : price
+                        ),
+                    }
                     : item
             );
             saveToCartStorage(updatedCartQuantity);
@@ -120,28 +137,56 @@ export const CartReducer = (state = initialState, action) => {
                 ...state,
                 Cart: updatedCartQuantity,
             };
-        case 'INCREMENT_ITEM_QUANTITY':
+        }
+        case INCREMENT_ITEM_QUANTITY: {
+            const { id, selectedSize } = action.payload;
+            console.log('Incrementing quantity for item ID:', id, 'Size:', selectedSize);
+            const updatedCart = state.Cart.map(item =>
+                item.id === id
+                    ? {
+                        ...item,
+                        prices: item.prices.map(price =>
+                            price.size === selectedSize
+                                ? { ...price, quantity: (price.quantity || 0) + 1 }
+                                : price
+                        ),
+                    }
+                    : item
+            );
+
+            saveToCartStorage(updatedCart);
             return {
                 ...state,
-                Cart: state.Cart.map(item =>
-                    item.id === action.payload
-                        ? { ...item, quantity: (item.quantity || 1) + 1 }
-                        : item
-                )
+                Cart: updatedCart,
             };
-        case 'DECREMENT_ITEM_QUANTITY':
+        }
+        case DECREMENT_ITEM_QUANTITY: {
+            const { id, selectedSize } = action.payload;
+            const updatedCart = state.Cart.map(item => {
+                if (item.id === id) {
+                    const updatedPrices = item.prices.map(price => {
+                        if (price.size === selectedSize) {
+                            const updatedQuantity = Math.max((price.quantity || 1) - 1, 0);
+                            return { ...price, quantity: updatedQuantity };
+                        }
+                        return price;
+                    }).filter(price => price.quantity > 0); // Remove size with 0 quantity
+                    return {
+                        ...item,
+                        prices: updatedPrices,
+                    };
+                }
+                return item;
+            }).filter(item => item.prices.length > 0); // Remove item if no sizes left
+
+            saveToCartStorage(updatedCart);
             return {
                 ...state,
-                Cart: state.Cart.map(item =>
-                    item.id === action.payload
-                        ? { ...item, quantity: Math.max((item.quantity || 1) - 1, 1) }
-                        : item
-                )
+                Cart: updatedCart,
             };
-        
-           
-        case REMOVE_FROM_CART:
-            
+        }
+
+        case REMOVE_FROM_CART: {
             const updatedOrderHistory = [...state.OrderHistory, ...state.Cart];
             saveToOrderHistoryStorage(updatedOrderHistory);
             saveToCartStorage([]);
@@ -150,8 +195,8 @@ export const CartReducer = (state = initialState, action) => {
                 OrderHistory: updatedOrderHistory,
                 Cart: [],
             };
+        }
         default:
             return state;
-
-        }
-}
+    }
+};

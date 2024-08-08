@@ -4,59 +4,58 @@ import CartItem from '../CartScreenComponent/CartItem';
 import { RPH, RPW } from '../../components/ScreenSize';
 import colors from '../../utils/Colors';
 import CustomButton from '../../components/CustomButton';
+
 const CartItemsList = ({ data, quantities, onAdd, onMinus, calculateTotalPrice, onPayPress }: any) => {
-    const renderItemsdata = ({ item }: any) => (
+    console.log('CartItemsList Data:', data);
+    console.log('Quantities:', quantities);
+    console.log('Total Price Calculation:', calculateTotalPrice());
+
+    const renderItemsData = ({ item }: any) => (
         <CartItem
             item={item}
-            quantity={quantities[item.id]}
-            onAdd={onAdd}
-            onMinus={onMinus}
+            // quantity={quantities[item.id]} // Ensure item.id is correctly used here
+            onAdd={() => onAdd(item.id, item.selectedSize)} // Make sure to pass correct params
+            onMinus={() => onMinus(item.id, item.selectedSize)} // Make sure to pass correct params
         />
     );
+
     return (
         <FlatList
             data={data}
-            renderItem={renderItemsdata}
-            keyExtractor={(item) => item.id}
+            renderItem={renderItemsData}
+            keyExtractor={(item) => item.id.toString()} // Ensure ID is a string
             showsVerticalScrollIndicator={false}
             contentContainerStyle={{ paddingBottom: RPH(1) }}
             ListFooterComponent={() => (
-                <>
-                    <View style={styles.priceOuterContainer}>
-                        <View style={{ flexDirection: "column" }}>
-                            <View style={styles.TotalPriceConatiner}>
-                                <Text style={styles.TotalPriceText}>
-                                    Total Price
-                                </Text>
-                            </View>
-                            <View style={styles.priceInnerContainer}>
-                                <Text style={styles.dolarStyle}>
-                                    $
-                                </Text>
-                                <Text style={styles.price}>{calculateTotalPrice()}</Text>
-                            </View>
+                <View style={styles.priceOuterContainer}>
+                    <View style={{ flexDirection: "column" }}>
+                        <View style={styles.TotalPriceContainer}>
+                            <Text style={styles.TotalPriceText}>Total Price</Text>
                         </View>
-
-                        <CustomButton
-                            text={"Pay"}
-                            onPress={onPayPress}
-                            style={styles.CustumButtonText}
-                        />
-
+                        <View style={styles.priceInnerContainer}>
+                            <Text style={styles.dollarStyle}>$</Text>
+                            <Text style={styles.price}>{calculateTotalPrice()}</Text>
+                        </View>
                     </View>
-                </>
+                    <CustomButton
+                        text={"Pay"}
+                        onPress={onPayPress}
+                        style={styles.CustomButtonText}
+                    />
+                </View>
             )}
         />
     );
 };
+
 const styles = StyleSheet.create({
-    TotalPriceConatiner: {},
+    TotalPriceContainer: {},
     TotalPriceText: {
         color: colors.textSubtitle,
         fontWeight: "600",
-        fontFamily: "Poppins-Medium"
+        fontFamily: "Poppins-Medium",
     },
-    dolarStyle: {
+    dollarStyle: {
         fontSize: RPW(5),
         color: colors.copperRed,
         fontWeight: "600",
@@ -78,13 +77,14 @@ const styles = StyleSheet.create({
         marginTop: RPH(2),
         flexDirection: "row",
         marginBottom: RPW(12),
-        justifyContent: "space-between"
+        justifyContent: "space-between",
     },
-    CustumButtonText: {
+    CustomButtonText: {
         fontSize: RPW(5),
         fontWeight: "600",
         fontFamily: "Poppins-Medium",
         width: RPW(60),
-    }
+    },
 });
+
 export default CartItemsList;

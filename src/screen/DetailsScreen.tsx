@@ -16,11 +16,13 @@ const DetailScreen = () => {
         const sizePrice = item.prices.find((p: { size: any}) => p.size === selectedSize);
         console.log(sizePrice)
         if (sizePrice) {
-            setSelectedPrice(sizePrice.price);
+            setSelectedPrice(sizePrice.price);    
         }
+        
     }, [selectedSize]);
     const handleSizePress = (size: any) => {
         setSelectedSize(size);
+        
     };
     const handleLikeIcon = () => {
         dispatch(addToFavourite(item));
@@ -30,8 +32,10 @@ const DetailScreen = () => {
         const selectedItem = {
             ...item,
             selectedSize,
-            selectedPrice
+            selectedPrice,
+           
         };
+
         dispatch(addToCart(selectedItem)); 
         Toast.show({
             type: 'customToast',

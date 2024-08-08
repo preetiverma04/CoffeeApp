@@ -25,14 +25,14 @@ export const addToCart = (item) => {
     };
 }
 // Actions
-export const incrementItemQuantity = (id) => ({
+export const incrementItemQuantity = (id,selectedSize) => ({
     type: INCREMENT_ITEM_QUANTITY,
-    payload: id ,
+    payload: {id ,selectedSize},
 });
 
-export const decrementItemQuantity = (id) => ({
+export const decrementItemQuantity = (id,selectedSize) => ({
     type: DECREMENT_ITEM_QUANTITY,
-    payload:  id ,
+    payload:  {id,selectedSize} ,
 });
 export const removeFromCart = (CartItems: any) => {
     return {
