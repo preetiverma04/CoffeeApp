@@ -1,39 +1,46 @@
-import React from 'react'
-import { Image, Pressable, StyleSheet, Text, View } from 'react-native'
+import React from 'react';
+import { Image, Pressable, StyleSheet, Text, View } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 import { RPH, RPW } from '../../components/ScreenSize';
 import colors from '../../utils/Colors';
 import imagesPath from '../../components/ImagePath/imagesPath';
-const CartItem = ({ item, quantity, onAdd, onMinus }:any) => {
+
+const CartItem = ({ item, quantity, onAdd, onMinus }) => {
+    const selectedPrice = item.prices?.find(price => price.size === item.selectedSize)?.price || item.prices?.[0]?.price || 0;
+
     return (
         <View style={styles.itemWrapper}>
-            <LinearGradient colors={['#21262E', 'black']} style={{ borderRadius: RPW(5) }}>
+            <LinearGradient colors={['#21262E', 'black']} style={styles.gradient}>
                 <View style={styles.itemContent}>
                     <Image source={item.image} style={styles.itemImage} />
                     <View style={styles.itemTextContainer}>
                         <Text style={styles.itemTitle}>{item.title}</Text>
                         <Text style={styles.itemSubtitle}>{item.subtitle}</Text>
-                        <View style={styles.priceContainerCart}>
-                            <Text style={styles.dolarSymobolCart}>
-                                {item.dolarSymbol}
-                            </Text>
-                            <Text style={styles.priceCartText}>
-                                {(item.price * quantity).toFixed(2)}
-                            </Text>
+
+                        <View style={styles.sizePriceContainer}>
+                            <View style={styles.sizeContainer}>
+                                <Text style={styles.sizeText}>{item.selectedSize}</Text>
+                            </View>
+                            <View style={styles.priceContainerCart}>
+                                <Text style={styles.dollarSymbolCart}>
+                                    {item.dolarSymbol}
+                                </Text>
+                                <Text style={styles.priceCartText}>
+                                    {(selectedPrice * quantity).toFixed(2)}
+                                </Text>
+                            </View>
                         </View>
+
                         <View style={styles.controlsContainer}>
                             <Pressable onPress={() => onMinus(item.id)}>
-                                <Image source={imagesPath.minusicon}
-                                    style={styles.Plusicon} />
+                                <Image source={imagesPath.minusicon} style={styles.icon} />
                             </Pressable>
                             <View style={styles.middleView}>
-                                <Text style={styles.middleviewtext}>{quantity}</Text>
+                                <Text style={styles.middleViewText}>{quantity}</Text>
                             </View>
                             <Pressable onPress={() => onAdd(item.id)}>
-                                <Image source={imagesPath.plusicon}
-                                    style={styles.Plusicon} />
+                                <Image source={imagesPath.plusicon} style={styles.icon} />
                             </Pressable>
-                            
                         </View>
                     </View>
                 </View>
@@ -41,10 +48,10 @@ const CartItem = ({ item, quantity, onAdd, onMinus }:any) => {
         </View>
     );
 };
-const styles=StyleSheet.create({
-    Plusicon: {
-        width: RPW(9),
-        height: RPH(4.5),
+
+const styles = StyleSheet.create({
+    gradient: {
+        borderRadius: RPW(5),
     },
     itemWrapper: {
         marginHorizontal: RPW(5),
@@ -55,7 +62,7 @@ const styles=StyleSheet.create({
         borderRadius: RPW(5),
         height: RPH(23.5),
         flexDirection: 'row',
-        alignSelf: "center"
+        alignSelf: 'center',
     },
     itemImage: {
         marginLeft: RPW(5),
@@ -69,70 +76,85 @@ const styles=StyleSheet.create({
         flex: 1,
     },
     itemTitle: {
-        fontFamily: "Poppins-Medium",
-        alignSelf: "center",
+        fontFamily: 'Poppins-Medium',
+        alignSelf: 'center',
         fontSize: RPW(5),
         color: colors.textTitleLight,
-        fontWeight: "400",
+        fontWeight: '400',
     },
     itemSubtitle: {
-        fontFamily: "Poppins-Medium",
-        alignSelf: "center",
+        fontFamily: 'Poppins-Medium',
+        alignSelf: 'center',
         fontWeight: '400',
         fontSize: RPW(2.5),
         color: colors.textSubtitle,
     },
-    priceContainerCart: {
-        flexDirection: "row",
-        justifyContent: "center"
+    sizePriceContainer: {
+        flexDirection: 'row',
+        justifyContent: 'center',
+        alignItems: 'center',
+        marginVertical: RPW(2),
     },
-    dolarSymobolCart: {
-        fontWeight: "800",
-        fontFamily: "Poppins-Medium",
-        marginTop: RPW(1.5),
+    sizeContainer: {
+        width: RPH(7),
+        height: RPH(4),
+        backgroundColor: colors.background,
+        justifyContent: 'center',
+        alignItems: 'center',
+        marginRight: RPW(2),
+        borderRadius: RPW(2),
+    },
+    sizeText: {
+        fontWeight: '800',
+        fontFamily: 'Poppins-Medium',
+        color: colors.textTitleLight,
+        fontSize: RPW(4),
+    },
+    priceContainerCart: {
+        flexDirection: 'row',
+        justifyContent: 'center',
+        alignItems: 'center',
+    },
+    dollarSymbolCart: {
+        fontWeight: '800',
+        fontFamily: 'Poppins-Medium',
         color: colors.copperRed,
-        alignSelf: "center",
-        fontSize: RPW(5)
+        fontSize: RPW(4),
     },
     priceCartText: {
-        fontWeight: "800",
-        fontFamily: "Poppins-Medium",
-        marginTop: RPW(1.5),
+        fontWeight: '800',
+        fontFamily: 'Poppins-Medium',
         color: colors.textTitleLight,
-        alignSelf: "center",
         fontSize: RPW(5),
-        marginLeft: RPW(2),
+        marginLeft: RPW(1),
     },
     controlsContainer: {
-        marginLeft: RPW(3),
-        marginRight: RPW(3),
         flexDirection: 'row',
-        justifyContent: "space-around",
+        justifyContent: 'space-around',
+        alignItems: 'center',
         marginTop: RPH(1),
     },
     middleView: {
-        alignSelf: "center",
         borderColor: colors.copperRed,
         borderWidth: 1,
         backgroundColor: colors.pureBlack,
         borderRadius: RPW(2),
         width: RPW(15),
         height: RPH(3.5),
-        justifyContent: 'space-between',
+        justifyContent: 'center',
         alignItems: 'center',
-        textAlignVertical: "center",
     },
-    middleviewtext: {
+    middleViewText: {
         color: colors.textTitleLight,
-        fontWeight: "600",
-        textAlign: "center",
-        alignSelf: "center",
+        fontWeight: '600',
+        textAlign: 'center',
         fontSize: RPW(4),
-        fontFamily: "Poppins-Medium",
-        textAlignVertical: "center",
-        justifyContent: "center",
-        alignItems: "center",
+        fontFamily: 'Poppins-Medium',
     },
-})
+    icon: {
+        width: RPW(9),
+        height: RPH(4.5),
+    },
+});
 
 export default CartItem;

@@ -11,7 +11,7 @@ const backIcon = require("../../assets/images/paymentScreenimages/back.png");
 const likeIcon = require("../../assets/images/pnggimagesFavouriteScreen/likeIcon1.png");
 const downloadLotie = require('../../lottie/download.json');
 const lotieSuccessful = require('../../lottie/successful.json');
-const splashscreen = require("../../assets/images/SplashScreen/splashscreen.jpg");
+const splashscreen = require("../../assets/images/SplashScreen/splashscreen2.jpg");
 const star = require("../../assets/images/pnggimagesFavouriteScreen/starIcon.png");
 const imagesPath = {
     img1,
@@ -30,5 +30,4 @@ const imagesPath = {
     splashscreen,
     star
 };
-
 export default imagesPath;

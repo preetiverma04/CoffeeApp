@@ -1,22 +1,49 @@
 import React, { useEffect } from 'react';
-import { ImageBackground, StyleSheet, View, Text, ActivityIndicator } from 'react-native';
+import { ImageBackground, StyleSheet, View, Text } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { RPW } from '../components/ScreenSize';
 import imagesPath from '../components/ImagePath/imagesPath';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { useDispatch } from 'react-redux';
+import { initializeCart, initializeFavourite, initializeOrderHistory } from '../components/redux/Action';
+
 const SplashScreen = () => {
     const navigation = useNavigation();
+    const dispatch = useDispatch();
+
     useEffect(() => {
+        const loadCartData = async () => {
+            try {
+                const cartData = await AsyncStorage.getItem('cart');
+                const orderData = await AsyncStorage.getItem('orderHistory');
+                const favourites = await AsyncStorage.getItem('favourites');
+                if (cartData) {
+                    dispatch(initializeCart(JSON.parse(cartData)));
+                }
+                if (orderData) {
+                    dispatch(initializeOrderHistory(JSON.parse(orderData)));
+                }
+                if (favourites){
+                    dispatch(initializeFavourite(JSON.parse(favourites)));
+                }
+            } catch (error) {
+                console.error('Error loading data from AsyncStorage', error);
+            }
+        };
+
+        loadCartData();
         const timer = setTimeout(() => {
-            navigation.replace('tabs'); 
-        }, 3000); 
+            navigation.replace('DrawerNavigation');
+        }, 2000);
         return () => clearTimeout(timer);
-    }, [navigation]);
+    }, [navigation, dispatch]);
+
     return (
         <ImageBackground
             source={imagesPath.splashscreen}
             style={styles.background}
-            resizeMode="cover" 
-            >
+            resizeMode="cover"
+        >
             <View style={styles.overlay}>
                 <Text style={styles.text}>Welcome To My Coffee App</Text>
                 <Text style={styles.subText}>Loading...</Text>
@@ -24,11 +51,12 @@ const SplashScreen = () => {
         </ImageBackground>
     );
 };
+
 const styles = StyleSheet.create({
     background: {
         flex: 1,
-        justifyContent: 'center', 
-        alignItems: 'center', 
+        width: '100%',
+        height: '100%',
     },
     overlay: {
         position: 'absolute',
@@ -36,17 +64,17 @@ const styles = StyleSheet.create({
         left: 0,
         right: 0,
         bottom: 0,
-        justifyContent: 'center', 
-        alignItems: 'center', 
+        justifyContent: 'center',
+        alignItems: 'center',
     },
     text: {
-        color: 'orange',
-        fontSize: RPW(6),
-        fontWeight: 'bold',
+        color: 'white',
+        fontSize: RPW(7),
+        fontWeight: '900',
         textAlign: 'center',
     },
     subText: {
-        color: 'orange',
+        color: 'white',
         fontSize: RPW(5),
         textAlign: 'center',
         marginTop: RPW(2),

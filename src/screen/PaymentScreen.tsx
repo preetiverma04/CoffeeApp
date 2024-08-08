@@ -8,24 +8,34 @@ import CreditCardDetails from './PaymentScreenComponents/CreditCardDetails';
 import PaymentModal from './PaymentScreenComponents/PaymentModal';
 import PriceDetails from './PaymentScreenComponents/PriceDetails';
 import colors from '../utils/Colors';
-import { useDispatch } from 'react-redux';
-import { removeFromCart } from '../components/redux/Action';
+import { useDispatch, useSelector } from 'react-redux';
+import { addToOrderHistory, removeFromCart } from '../components/redux/Action';
 const PaymentScreen = () => {
+    
+    const calculateTotalPrice = (items: any[]) => {
+        return items.reduce((total, item) => {
+            const selectedPrice = item.prices.find(priceItem => priceItem.size === item.selectedSize)?.price || item.prices[0].price;
+            return total + (selectedPrice * (item.quantity || 1));
+        }, 0).toFixed(2);
+    };
     const navigation = useNavigation();
-
+    const CartItems = useSelector((state) => state.Cart.Cart);
     const dispatch=useDispatch();
     const [isModalVisible, setModalVisible] = useState(false);
-
     const handlePaymentButtonPress = () => {
         setModalVisible(true);
-        
+        dispatch(removeFromCart(CartItems)); 
+        console.log("Removing cart data");
+        setTimeout(() => {
+            console.log("ordered history navigate")
+            navigation.navigate("OrderHistoryScreen", { CartItems: CartItems });
+        }, 2000);
     };
+   
 
     const closeModal = () => {
-        setModalVisible(false);
-       
+        setModalVisible(false); 
     };
-
     return (
         <ScrollView style={styles.ScrollViewStyle}>
             <View style={styles.outerPaymentContainer}>
@@ -33,7 +43,7 @@ const PaymentScreen = () => {
                 <CreditCardDetails />
                 <PaymentMethods />
                 <PaymentModal isVisible={isModalVisible} onClose={closeModal} />
-                <PriceDetails onPaymentButtonPress={handlePaymentButtonPress} />
+                <PriceDetails onPaymentButtonPress={handlePaymentButtonPress} calculateTotalPrice={() => calculateTotalPrice(CartItems)}/>
             </View>
         </ScrollView>
     );

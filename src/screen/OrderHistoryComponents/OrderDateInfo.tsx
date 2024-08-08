@@ -1,21 +1,40 @@
 import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
+import { format } from 'date-fns';
 import { RPW, RPH } from '../../components/ScreenSize';
 import colors from '../../utils/Colors';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
-const OrderDateInfo = () => (
-    <View style={styles.orderInfoContainer}>
-        <View>
-            <Text style={styles.orderText}>Order Date</Text>
-            <Text style={styles.orderDate}>20 March 16:23</Text>
-        </View>
-        <View>
-            <Text style={styles.totalAmountText}>Total Amount</Text>
-            <Text style={styles.totalAmountPrice}>$70.67</Text>
-        </View>
-    </View>
-);
 
+const OrderDateInfo = ({ calculateTotalPrice }:any) => {
+   
+    const today = new Date();
+//    const datestore = async () => {
+//         try {
+
+//             await AsyncStorage.setItem("OrderDateInfo", JSON.stringify(today))
+
+//         }
+//         catch (error) {
+            
+
+//         }
+//     }
+    const formattedDate = format(today, 'dd MMMM'); 
+    const formattedTime = format(today, 'HH:mm');      
+    return (
+        <View style={styles.orderInfoContainer}>
+            <View>
+                <Text style={styles.orderText}>Order Date</Text>
+                <Text style={styles.orderDate}>{`${formattedDate} ${formattedTime}`}</Text>
+            </View>
+            <View>
+                <Text style={styles.totalAmountText}>Total Amount</Text>
+                <Text style={styles.totalAmountPrice}>{calculateTotalPrice() }</Text>
+            </View>
+        </View>
+    );
+};
 const styles = StyleSheet.create({
     orderInfoContainer: {
         flexDirection: "row",
@@ -39,10 +58,9 @@ const styles = StyleSheet.create({
         color: colors.textTitleLight,
     },
     totalAmountPrice: {
-        fontFamily: "Poppins-Medium",
+        fontFamily: "Poppins-Bold",
         fontSize: RPW(5),
         color: colors.copperRed,
     },
 });
-
 export default OrderDateInfo;

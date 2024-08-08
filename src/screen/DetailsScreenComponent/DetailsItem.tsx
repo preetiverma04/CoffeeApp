@@ -1,13 +1,33 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { View, Text, Image, TouchableOpacity, StyleSheet, ImageBackground } from 'react-native';
-import { RPW, RPH } from '../../components/ScreenSize';
 import LinearGradient from 'react-native-linear-gradient';
 import { useNavigation } from '@react-navigation/native';
 import imagesPath from '../../components/ImagePath/imagesPath';
+import colors from '../../utils/Colors';
+import { RPW, RPH } from '../../components/ScreenSize';
 
+const DetailItem = ({ item, selectedSize, handleSizePress, handleLikeIcon, handleCartButton }) => {
+    const [liked, setLiked] = useState(false);
+    const [price, setPrice] = useState(item.prices[0].price);
+    const [currency, setCurrency] = useState(item.prices[0].currency);
+    const [isDescriptionExpanded, setDescriptionExpanded] = useState(false);
+    useEffect(() => {
+        const selectedItem = item.prices.find(p => p.size === selectedSize) || item.prices[0];
+        setPrice(selectedItem.price);
+        setCurrency(selectedItem.currency);
+    }, [selectedSize, item.prices]);
 
-const DetailItem = ({ item, selectedSize, handleSizePress, handleLikeIcon, handleCartButton }:any) => {
-    const navigation = useNavigation()
+    const handleSizePressInternal = (size) => {
+        handleSizePress(size);
+    };
+
+    const handleLikeToggle = () => {
+        setLiked(prevLiked => !prevLiked);
+        handleLikeIcon();
+    };
+
+    const navigation = useNavigation();
+
     return (
         <LinearGradient colors={['#262B33', '#262B33', 'black']} style={styles.gradient}>
             <ImageBackground source={item.image} style={styles.image}>
@@ -15,8 +35,8 @@ const DetailItem = ({ item, selectedSize, handleSizePress, handleLikeIcon, handl
                     <TouchableOpacity style={styles.backButtonContainer} onPress={() => navigation.goBack()}>
                         <Image source={imagesPath.backIcon} style={styles.backIcon} />
                     </TouchableOpacity>
-                    <TouchableOpacity style={styles.likeIconContainer} onPress={handleLikeIcon}>
-                        <Image source={item.likeIcon} style={styles.likeIcon} />
+                    <TouchableOpacity style={styles.likeIconContainer} onPress={handleLikeToggle}>
+                        <Image source={item.likeIcon} style={[styles.likeIcon, { tintColor: liked ? colors.red : colors.textTitleLight }]} />
                     </TouchableOpacity>
                 </View>
                 <View style={styles.detailContainer}>
@@ -37,33 +57,42 @@ const DetailItem = ({ item, selectedSize, handleSizePress, handleLikeIcon, handl
                         </View>
                     </View>
                     <View style={styles.starRatedContainer}>
-                        <TouchableOpacity onPress={() => { /* Handle star press */ }}>
+                        <TouchableOpacity>
                             <View style={styles.starinnerRated}>
                                 <Image source={item.starIcon} style={styles.starIcon} />
                                 <Text style={styles.ratedtext1}>{item.starRatingText1}</Text>
                                 <Text style={styles.ratedtext2}>{item.starRatingText2}</Text>
                             </View>
                         </TouchableOpacity>
-                        <TouchableOpacity style={styles.ratedButtonContainer} onPress={() => { /* Handle rated button press */ }}>
+                        <TouchableOpacity style={styles.ratedButtonContainer}>
                             <Text style={styles.ratedButtonText}>Roasted Medium</Text>
                         </TouchableOpacity>
                     </View>
                 </View>
             </ImageBackground>
-            <View>
+            <View style={styles.descriptionContainer}>
                 <Text style={styles.descriptionHeader}>{item.DescriptionHeading}</Text>
-                <Text style={styles.description}>{item.Description}</Text>
+                <Text
+                    style={styles.description}
+                    numberOfLines={isDescriptionExpanded ? 0 : 2} 
+                    // ellipsizeMode="tail"
+                >
+                    {item.Description}
+                </Text>
+                <TouchableOpacity onPress={() => setDescriptionExpanded(!isDescriptionExpanded)}>
+                    <Text style={styles.readMoreText}>{isDescriptionExpanded ? 'read less...' : 'read more...'}</Text>
+                </TouchableOpacity>
             </View>
             <View>
-                <Text style={{ color: "#AEAEAE", fontSize: RPH(2.5), fontFamily: "Poppins-Medium", marginHorizontal: RPW(6) }}>{item.Size}</Text>
+                <Text style={styles.sizetextLabel}>{item.Size}</Text>
                 <View style={styles.sizeContainer}>
-                    {item.sizeData.map((size:any) => (
+                    {item.prices.map((priceItem) => (
                         <TouchableOpacity
-                            key={size}
-                            onPress={() => handleSizePress(size)}
-                            style={[styles.sizeButton, selectedSize === size && styles.sizeButtonSelected]}
+                            key={priceItem.size}
+                            onPress={() => handleSizePressInternal(priceItem.size)}
+                            style={[styles.sizeButton, selectedSize === priceItem.size && styles.sizeButtonSelected]}
                         >
-                            <Text style={[styles.sizeButtonText, selectedSize === size && styles.sizetextSelected]}>{size}</Text>
+                            <Text style={[styles.sizeButtonText, selectedSize === priceItem.size && styles.sizetextSelected]}>{priceItem.size}</Text>
                         </TouchableOpacity>
                     ))}
                 </View>
@@ -72,8 +101,8 @@ const DetailItem = ({ item, selectedSize, handleSizePress, handleLikeIcon, handl
                 <View>
                     <Text style={styles.priceLabel}>{item.priceText}</Text>
                     <View style={styles.priceRow}>
-                        <Text style={styles.dollarSymbol}>{item.dolarSymbol}</Text>
-                        <Text style={styles.price}>{item.price}</Text>
+                        <Text style={styles.dollarSymbol}>{currency}</Text>
+                        <Text style={styles.price}>{price}</Text>
                     </View>
                 </View>
                 <TouchableOpacity style={styles.button} onPress={handleCartButton}>
@@ -104,7 +133,7 @@ const styles=StyleSheet.create({
         top: RPW(3),
     },
     backButtonContainer: {
-        backgroundColor: '#0C0F14',
+        backgroundColor: colors.background,
         borderRadius: RPW(3.3),
         padding: RPW(2),
         width: RPW(10),
@@ -119,14 +148,14 @@ const styles=StyleSheet.create({
     likeIconContainer: {
         backgroundColor: '#0C0F14',
         borderRadius: RPW(3.3),
-        width: RPW(10),
+        width: RPW(10.5),
         height: RPH(5),
         padding: RPW(2),
     },
     likeIcon: {
         tintColor: "red",
         alignSelf: "center",
-        width: RPW(6),
+        width: RPW(7),
         height: RPH(3),
     },
     detailContainer: {
@@ -159,7 +188,7 @@ const styles=StyleSheet.create({
         borderRadius: RPW(3),
         width: RPW(13),
         height: RPH(6.5),
-        backgroundColor: "#0C0F14",
+        backgroundColor: colors.background,
         justifyContent: "center",
         alignItems: "center",
     },
@@ -168,7 +197,7 @@ const styles=StyleSheet.create({
         height: RPH(4),
     },
     iconText: {
-        color: "#AEAEAE",
+        color: colors.textSubtitle,
         fontSize: RPW(2.0),
 
     },
@@ -196,17 +225,17 @@ const styles=StyleSheet.create({
         fontFamily: "Poppins-Light",
         fontWeight: "300",
         lineHeight: RPH(2.5),
-        color: "white",
+        color: colors.textTitleLight,
         marginLeft: RPW(1)
     },
     starIcon: {
-        tintColor: "#D17842",
+        tintColor: colors.copperRed,
         marginLeft: RPW(3),
         width: RPW(5),
         height: RPH(3),
     },
     ratedButtonContainer: {
-        backgroundColor: '#0C0F14',
+        backgroundColor: colors.background,
         borderRadius: RPW(3.5),
         width: RPW(35),
         height: RPH(6),
@@ -214,27 +243,42 @@ const styles=StyleSheet.create({
         alignItems: "center",
     },
     ratedButtonText: {
-        color: '#AEAEAE',
+        color: colors.textSubtitle,
         fontFamily: 'Poppins-Light',
         fontSize: RPW(3),
         textAlign: 'center',
     },
     descriptionContainer: {
-        marginHorizontal: RPW(5),
+        marginHorizontal: RPW(3),
         marginVertical: RPH(2),
     },
     descriptionHeader: {
-        marginHorizontal: RPW(6),
+        marginHorizontal: RPW(3),
         color: "#AEAEAE",
-        fontFamily: "Poppins-SemiBold",
-        fontSize: RPW(5),
+        fontFamily: "Poppins-Bold",
+        fontSize: RPW(5.3),
     },
     description: {
-        marginHorizontal: RPW(6),
+        marginHorizontal: RPW(3),
         color: "#AEAEAE",
         fontFamily: "Poppins-Light",
-        fontSize: RPW(2.5),
+        fontSize: RPW(3.5),
         lineHeight: RPH(2.8),
+        textAlign:"justify"
+    },
+    readMoreText: {
+        color: colors.textSubtitle,
+        fontFamily: "Poppins-Medium",
+        fontSize: RPW(3.5),
+        marginHorizontal: RPW(3),
+        // marginTop: RPH(1),
+    },
+    sizetextLabel:{
+        color:colors.textSubtitle,
+        marginHorizontal:RPW(5.5),
+        fontFamily: "Poppins-Bold",
+        fontSize:RPW(5.3),
+
     },
     sizeContainer: {
         flexDirection: 'row',

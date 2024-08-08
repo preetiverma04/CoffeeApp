@@ -1,24 +1,25 @@
-// FavouriteItem.tsx
-import React, { useState } from 'react';
+import React from 'react';
 import { View, Text, ImageBackground, Image, TouchableOpacity, StyleSheet } from 'react-native';
 import { RPW, RPH } from '../../components/ScreenSize';
 import colors from '../../utils/Colors';
 import LinearGradientColors from '../../utils/linearGradientColors';
 import imagesPath from '../../components/ImagePath/imagesPath';
+import { useDispatch } from 'react-redux';
+import { removeFromFavourite } from '../../components/redux/Action';
 const FavouriteItem = ({item}:any) => {
-    const [liked, setLiked] = useState(false);
-    const handleLikeToggle = () => {
-        setLiked(!liked);
+    const dispatch=useDispatch()
+    const handleLikePress = () => {
+        dispatch(removeFromFavourite(item.id));
     };
     return (
         <View style={styles.outerContainer}>
             <LinearGradientColors>
                 <View style={styles.outerContainer2}>
                     <ImageBackground source={item.image} style={styles.image}>
-                        <TouchableOpacity style={styles.likeIconContainer} onPress={handleLikeToggle}>
+                        <TouchableOpacity style={styles.likeIconContainer} onPress={handleLikePress}>
                             <Image
                                 source={imagesPath.likeIcon}
-                                style={[styles.likeIcon, { tintColor: liked ? colors.red : colors.textTitleLight }]}
+                                style={[styles.likeIcon,]}
                             />
                         </TouchableOpacity>
                         <View style={styles.innerContainer1}>
@@ -76,8 +77,8 @@ const styles = StyleSheet.create({
     },
     likeIcon: {
         alignSelf: "center",
-        width: RPW(6),
-        height: RPW(6),
+        width: RPW(7),
+        height: RPW(7),
         textAlignVertical: "center",
         alignItems: "center"
     },

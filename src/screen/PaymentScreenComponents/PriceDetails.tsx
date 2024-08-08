@@ -1,20 +1,18 @@
 import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 import CustomButton from '../../components/CustomButton';
-import FavouriteData from '../../components/Data/FavouriteData';
 import { RPH, RPW } from '../../components/ScreenSize';
-import { Coffeedata } from '../../components/Data/CoffeeTabData';
 import colors from '../../utils/Colors';
 
-const PriceDetails = ({ onPaymentButtonPress }:any) => {
-    const priceItem = Coffeedata[0];
+const PriceDetails = ({ onPaymentButtonPress, calculateTotalPrice }:any) => {
+    const totalPrice = calculateTotalPrice();
     return (
         <View style={styles.priceContainer}>
-            <Text style={styles.priceTitle}>{priceItem.priceText}</Text>
+            <Text style={styles.priceTitle}>Total Price</Text>
             <View style={styles.priceRow}>
                 <View style={styles.priceDetail}>
-                    <Text style={styles.dollarSign}>{priceItem.dolarSymbol}</Text>
-                    <Text style={styles.priceText}>{priceItem.price}</Text>
+                    <Text style={styles.dollarSign}>$</Text>
+                    <Text style={styles.priceText}>{totalPrice}</Text>
                 </View>
                 <CustomButton
                     text="Pay from credit card"
@@ -29,18 +27,19 @@ const PriceDetails = ({ onPaymentButtonPress }:any) => {
 const styles = StyleSheet.create({
     priceContainer: {
         marginTop: RPH(2.5),
-        marginLeft: RPW(3),
+        marginLeft: RPW(2),
+        
     },
     priceTitle: {
         color: colors.textTitleLight,
         fontSize: RPW(4),
-        marginLeft: RPW(2),
-        marginTop: RPH(2)
+        marginLeft: RPW(0),
+        marginTop: RPH(1)
     },
     priceRow: {
         flexDirection: 'row',
         justifyContent: 'space-between',
-        alignItems: 'center',
+        // alignItems: 'center',
     },
     priceDetail: {
         flexDirection: 'row',

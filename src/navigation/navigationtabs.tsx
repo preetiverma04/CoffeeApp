@@ -71,7 +71,7 @@ const Navigationtabs = () => {
                     }
                 }
                 } />
-            <Tabsbottom.Screen name='Order' component={OrderHistoryScreen}
+            <Tabsbottom.Screen name='OrderHistoryScreen' component={OrderHistoryScreen}
                 options={{
                     headerShown: false,
                     tabBarIcon: ({ focused, size }) => {

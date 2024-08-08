@@ -9,15 +9,11 @@ import Svg, {
 } from "react-native-svg"
 const TopimgHome1Svg = (props: SvgProps) => (
     <Svg
-      
         width={props.width}
         height={props.height}
-        // fill={props.color}
         viewBox="0 0 29 29" 
-        {...props}
-    >
-        <Rect
-            
+        {...props} >
+        <Rect    
             x={0.5}
             y={0.5}
             fill={props.color}

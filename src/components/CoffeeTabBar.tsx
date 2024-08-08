@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, StyleSheet, Pressable, Image, FlatList, ImageBackground } from 'react-native';
+import { View, Text, StyleSheet, Pressable, Image, FlatList, ImageBackground, Alert } from 'react-native';
 import { CoffeeTabData, Coffeedata, CoffeBeansData } from './Data/CoffeeTabData';
 import { RPH, RPW } from './ScreenSize';
 import LinearGradient from 'react-native-linear-gradient';
@@ -8,8 +8,9 @@ import { useDispatch } from 'react-redux';
 import { addToCart } from '../components/redux/Action';
 import imagesPath from './ImagePath/imagesPath';
 import colors from '../utils/Colors';
+import Toast from 'react-native-toast-message';
 const CoffeeTabBar = ({ searchTab = '' }) => {
-    const dispatch=useDispatch()
+    const dispatch=useDispatch();
     const [filteredCoffeeData, setFilteredCoffeeData] = useState(Coffeedata);
     const [selectedTab, setSelectedTab] = useState<string>("All");
     const navigation = useNavigation();
@@ -21,23 +22,36 @@ const CoffeeTabBar = ({ searchTab = '' }) => {
             let filteredItems = [...Coffeedata];
             if (searchTab) {
                 const searchLower = searchTab.toLowerCase();
-                const matchingItems = filteredItems.filter(coffee =>
+                filteredItems = filteredItems.filter(coffee =>
                     coffee.title.toLowerCase().includes(searchLower)
                 );
-                const nonMatchingItems = filteredItems.filter(coffee =>
-                    !coffee.title.toLowerCase().includes(searchLower)
-                );
-                filteredItems = [...matchingItems, ...nonMatchingItems];
             }
             if (selectedTab !== 'All') {
-                const selectedItems = filteredItems.filter(item => item.title === selectedTab);
-                const otherItems = filteredItems.filter(item => item.title !== selectedTab);
-                filteredItems = selectedItems.concat(otherItems);
+                filteredItems = filteredItems.filter(item => item.title === selectedTab);
             }
             return filteredItems;
         };
         setFilteredCoffeeData(filterData());
-    }, [searchTab,selectedTab]);
+    }, [searchTab, selectedTab]);
+    const handleAddToCart = (item: any) => {
+        const selectedSize = item.prices[0].size; 
+        const selectedPrice = item.prices.find(price => price.size === selectedSize)?.price || item.prices[0]?.price;
+        const itemWithSelectedSize = {
+            ...item,
+            selectedSize,
+            selectedPrice
+        };
+        dispatch(addToCart(itemWithSelectedSize));
+        Toast.show({
+            type: 'customToast',
+            position: 'bottom',
+            text1: 'Added to Cart',
+            text2: `${item.title} (${selectedSize}) has been added to your cart.`,
+            visibilityTime: 1000,
+            autoHide: true,
+            bottomOffset: 10,
+        });
+    };
     const renderTabItem = ({ item }: { item: string }) => (
         <View style={styles.tabItemContainer}>
             <Pressable
@@ -52,43 +66,59 @@ const CoffeeTabBar = ({ searchTab = '' }) => {
             </Pressable>
         </View>
     );
-    const renderCoffeeItem = ({ item }: { item: any }) => (
-        <Pressable
-            onPress={() => {
-                navigation.navigate('DetailsScreen', { item });
-            }}>
-            <LinearGradient
-                style={styles.coffeeItemContainer}
-                colors={['#21262E', 'black']}
-                start={{ x: 0, y: 0 }}
-                end={{ x: 1, y: 1 }}>
-                <View style={styles.coffeeOuter}>
-                    <ImageBackground source={item.image} style={styles.coffeeImage} imageStyle={styles.coffeeImageStyle}>
-                        <View style={styles.ratingContainer}>
-                            <View style={styles.ratingInnerContainer}>
-                                <Image source={imagesPath.star} style={styles.starIcon} />
-                                <Text style={styles.ratingText}> 2.57</Text>
+    const renderCoffeeItem = ({ item }) => {
+        const selectedSize = ''; 
+        if (!item.prices || item.prices.length === 0) {
+            return null; 
+        }
+        const selectedPrice = item.prices.find(price => price.size === selectedSize)?.price || item.prices[0]?.price;
+        return (
+            <Pressable
+                onPress={() => {
+                    navigation.navigate('DetailsScreen', { item });
+                }}>
+                <LinearGradient
+                    style={styles.coffeeItemContainer}
+                    colors={['#21262E', 'black']}
+                    start={{ x: 0, y: 0 }}
+                    end={{ x: 1, y: 1 }}>
+                    <View style={styles.coffeeOuter}>
+                        <ImageBackground
+                            source={item.image}
+                            style={styles.coffeeImage}
+                            imageStyle={styles.coffeeImageStyle}>
+                            <View style={styles.ratingContainer}>
+                                <View style={styles.ratingInnerContainer}>
+                                    <Image source={imagesPath.star} style={styles.starIcon} />
+                                    <Text style={styles.ratingText}> 2.34</Text>
+                                </View>
+                            </View>
+                        </ImageBackground>
+                        <View style={styles.coffeeInfoContainer}>
+                            <Text style={styles.coffeeTitle}>{item.title}</Text>
+                            <Text style={styles.coffeeSubtitle}>{item.subtitle}</Text>
+                            <View style={styles.priceSymbolContainer}>
+                                <Text style={styles.coffeePrice}>
+                                    {item.dolarSymbol} <Text style={styles.currency}> {selectedPrice}</Text>
+                                </Text>
+                                <Pressable onPress={() => handleAddToCart(item)}>
+                                    <Image source={imagesPath.plusicon} style={styles.Plusicon} />
+                                </Pressable>
                             </View>
                         </View>
-                    </ImageBackground>
-                    <View style={styles.coffeeInfoContainer}>
-                        <Text style={styles.coffeeTitle}>{item.title}</Text>
-                        <Text style={styles.coffeeSubtitle}>{item.subtitle}</Text>
-                        <View style={styles.priceSymbolContainer}>
-                            <Text style={styles.coffeePrice}>
-                                {item.dolarSymbol}
-                                <Text style={styles.currency}> {item.price}</Text>
-                            </Text>
-                            <Pressable onPress={() => dispatch(addToCart(item))}>
-                                <Image source={imagesPath.plusicon} style={styles.Plusicon} />
-                            </Pressable>
-                        </View>
                     </View>
-                </View>
-            </LinearGradient>
-        </Pressable>
-    );
-    const renderCoffeeBeansItem = ({ item }: { item: any }) => (
+                </LinearGradient>
+            </Pressable>
+        );
+    };
+
+    const renderCoffeeBeansItem = ({ item }: { item: any }) => {
+        const selectedSize='';
+        
+        const selectedPrice = item.prices.find(price => price.size === selectedSize)?.price !== undefined
+            ? item.prices.find(price => price.size === selectedSize).price
+            : item.prices[0].price;
+         return(
         <Pressable
             onPress={() => {
                 navigation.navigate('DetailsScreen', {  item });
@@ -115,12 +145,10 @@ const CoffeeTabBar = ({ searchTab = '' }) => {
                         <Text style={styles.coffeeSubtitle}>{item.subtitle}</Text>
                         <View style={styles.priceSymbolContainer}>
                             <Text style={styles.coffeePrice}>{item.dolarSymbol}
-                                <Text style={styles.currency}>{item.price}</Text>
+                                     <Text style={styles.currency}>{item.selectedSize} {selectedPrice}</Text>
                             </Text>
-                            {/* <View style={styles.symbolContainer}>
-                                <Text style={styles.symbol}>{item.symbol}</Text>
-                            </View> */}
-                            <Pressable onPress={() => dispatch(addToCart(item))}>
+                            <Pressable onPress={() => handleAddToCart(item) 
+                            }>
                                 <Image source={imagesPath.plusicon} style={styles.Plusicon} />
                             </Pressable>
                         </View>
@@ -128,7 +156,7 @@ const CoffeeTabBar = ({ searchTab = '' }) => {
                 </View>
             </LinearGradient>
         </Pressable>
-    );
+    )};
     return (
         <View style={styles.container}>
             <FlatList
@@ -145,7 +173,6 @@ const CoffeeTabBar = ({ searchTab = '' }) => {
                 data={filteredCoffeeData}
                 renderItem={({ item }) => renderCoffeeItem({ item })}
                 keyExtractor={(item, index) => `coffee-${index}`}
-                
                 showsHorizontalScrollIndicator={false}
                 showsVerticalScrollIndicator={false}
                 contentContainerStyle={styles.coffeeContainer}
@@ -160,16 +187,17 @@ const CoffeeTabBar = ({ searchTab = '' }) => {
                 showsVerticalScrollIndicator={false}
                 contentContainerStyle={styles.coffeeBeansContainer}
             />
+            {/* {alertVisible && (
+                <CustomAlert visible={alertVisible} onClose={handleAlertClose} />
+            )} */}
         </View>
     );
 };
-
 const styles = StyleSheet.create({
     Plusicon: {
         marginHorizontal:RPW(2),
         width: RPW(9), 
         height: RPH(4.5)
-
     },
     container:{},
     tabItemContainer: {
@@ -219,8 +247,8 @@ const styles = StyleSheet.create({
     ratingContainer: {
         backgroundColor: 'rgba(0, 0, 0, 0.5)',
         alignSelf: "flex-end",
-        width: RPW(17),
-        height: RPH(3.6),
+        width: RPW(21),
+        height: RPH(2.5),
         borderTopRightRadius: RPW(5),
         borderBottomLeftRadius: RPW(6.2),
         flexDirection: 'row',
@@ -252,12 +280,10 @@ const styles = StyleSheet.create({
         right: RPW(2),
     },
     coffeeTitle: {
-        flex: 1,
-        
+        flex: 1, 
         fontFamily: 'Poppins-Medium',
         fontWeight: "500",
         fontSize: RPW(4.8),
-        
         color: colors.textTitleLight,
     },
     coffeeSubtitle: {

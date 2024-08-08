@@ -1,17 +1,16 @@
 import React from 'react';
 import { FlatList, StyleSheet, View, Text } from 'react-native';
-import CartItem from '../CartScreenComponent/CartItem'; 
+import CartItem from '../CartScreenComponent/CartItem';
 import { RPH, RPW } from '../../components/ScreenSize';
 import colors from '../../utils/Colors';
 import CustomButton from '../../components/CustomButton';
-const CartItemsList = ({ data, quantities, onAdd, onMinus, calculateTotalPrice, onPayPress }:any) => {
-    const renderItemsdata = ({ item }:any) => (
+const CartItemsList = ({ data, quantities, onAdd, onMinus, calculateTotalPrice, onPayPress }: any) => {
+    const renderItemsdata = ({ item }: any) => (
         <CartItem
             item={item}
             quantity={quantities[item.id]}
             onAdd={onAdd}
             onMinus={onMinus}
-           
         />
     );
     return (
@@ -37,13 +36,13 @@ const CartItemsList = ({ data, quantities, onAdd, onMinus, calculateTotalPrice, 
                                 <Text style={styles.price}>{calculateTotalPrice()}</Text>
                             </View>
                         </View>
-                        
-                            <CustomButton
-                                text={"Pay"}
-                                onPress={onPayPress}
-                                style={styles.CustumButtonText}
-                            />
-                        
+
+                        <CustomButton
+                            text={"Pay"}
+                            onPress={onPayPress}
+                            style={styles.CustumButtonText}
+                        />
+
                     </View>
                 </>
             )}

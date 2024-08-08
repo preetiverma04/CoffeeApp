@@ -24,6 +24,11 @@ const Coffeedata = [
         symbol: "+",
         symbolminus: "-",
         symbolplus: "+",
+        prices: [
+            { size: 'S', price: '1.38', currency: '$' },
+            { size: 'M', price: '3.15', currency: '$' },
+            { size: 'L', price: '4.29', currency: '$' },
+        ],
     },
     {
         id: 2,
@@ -49,6 +54,11 @@ const Coffeedata = [
         buttonText: "Add to Cart",
         symbol: "+",
         likeIcon: require("../../assets/images/pnggimagesFavouriteScreen/likeIcon.png"),
+        prices: [
+            { size: 'S', price: '1.38', currency: '$' },
+            { size: 'M', price: '3.15', currency: '$' },
+            { size: 'L', price: '4.29', currency: '$' },
+        ],
     },
     {
         symbolminus: "-",
@@ -74,10 +84,20 @@ const Coffeedata = [
         dolarSymbol: "$",
         price: "10.50",
         buttonText: "Add to Cart",
-        symbol: "+"
+        symbol: "+",
+        prices: [
+            { size: 'S', price: '1.38', currency: '$' },
+            { size: 'M', price: '3.15', currency: '$' },
+            { size: 'L', price: '4.29', currency: '$' },
+        ],
     },
     {
         id: 4,
+        prices: [
+            { size: 'S', price: '1.38', currency: '$' },
+            { size: 'M', price: '3.15', currency: '$' },
+            { size: 'L', price: '4.29', currency: '$' },
+        ],
         symbolminus: "-",
         symbolplus: "+",
         image: require("../../assets/coffee_assets/black_coffee/square/black_coffee_pic_1_square.png"),
@@ -103,6 +123,11 @@ const Coffeedata = [
     },
     {
         id: 5,
+        prices: [
+            { size: 'S', price: '1.38', currency: '$' },
+            { size: 'M', price: '3.15', currency: '$' },
+            { size: 'L', price: '4.29', currency: '$' },
+        ],
         image: require("../../assets/coffee_assets/black_coffee/square/black_coffee_pic_2_square.png"),
         title: "Black Coffee",
         subtitle: "With Streamed Milk",
@@ -127,6 +152,11 @@ const Coffeedata = [
         likeIcon: require("../../assets/images/pnggimagesFavouriteScreen/likeIcon.png"),
     },
     {
+        prices: [
+            { size: 'S', price: '1.38', currency: '$' },
+            { size: 'M', price: '3.15', currency: '$' },
+            { size: 'L', price: '4.29', currency: '$' },
+        ],
         id: 6,
         image: require("../../assets/coffee_assets/black_coffee/square/black_coffee_pic_3_square.png"),
         title: "Black Coffee",
@@ -154,6 +184,11 @@ const Coffeedata = [
         likeIcon: require("../../assets/images/pnggimagesFavouriteScreen/likeIcon.png"),
     },
     {
+        prices: [
+            { size: 'S', price: '1.38', currency: '$' },
+            { size: 'M', price: '3.15', currency: '$' },
+            { size: 'L', price: '4.29', currency: '$' },
+        ],
         symbolminus: "-",
         symbolplus: "+",
         id: 7,
@@ -204,6 +239,11 @@ const Coffeedata = [
         likeIcon: require("../../assets/images/pnggimagesFavouriteScreen/likeIcon.png"),
     },
     {
+        prices: [
+            { size: 'S', price: '1.38', currency: '$' },
+            { size: 'M', price: '3.15', currency: '$' },
+            { size: 'L', price: '4.29', currency: '$' },
+        ],
         symbolminus: "-",
         symbolplus: "+",
         id: 9,
@@ -229,6 +269,11 @@ const Coffeedata = [
         likeIcon: require("../../assets/images/pnggimagesFavouriteScreen/likeIcon.png"),
     },
     {
+        prices: [
+            { size: 'S', price: '1.38', currency: '$' },
+            { size: 'M', price: '3.15', currency: '$' },
+            { size: 'L', price: '4.29', currency: '$' },
+        ],
         symbolminus: "-",
         symbolplus: "+",
         id: 10,
@@ -254,6 +299,11 @@ const Coffeedata = [
         likeIcon: require("../../assets/images/pnggimagesFavouriteScreen/likeIcon.png"),
     },
     {
+        prices: [
+            { size: 'S', price: '1.38', currency: '$' },
+            { size: 'M', price: '3.15', currency: '$' },
+            { size: 'L', price: '4.29', currency: '$' },
+        ],
         symbolminus: "-",
         symbolplus: "+",
         id: 11,
@@ -279,6 +329,11 @@ const Coffeedata = [
         likeIcon: require("../../assets/images/pnggimagesFavouriteScreen/likeIcon.png"),
     },
     {
+        prices: [
+            { size: 'S', price: '1.38', currency: '$' },
+            { size: 'M', price: '3.15', currency: '$' },
+            { size: 'L', price: '4.29', currency: '$' },
+        ],
         symbolminus: "-",
         symbolplus: "+",
         id: 12,
@@ -304,6 +359,11 @@ const Coffeedata = [
         likeIcon: require("../../assets/images/pnggimagesFavouriteScreen/likeIcon.png"),
     },
     {
+        prices: [
+            { size: 'S', price: '1.38', currency: '$' },
+            { size: 'M', price: '3.15', currency: '$' },
+            { size: 'L', price: '4.29', currency: '$' },
+        ],
         symbolminus: "-",
         symbolplus: "+",
         id: 13,
@@ -329,6 +389,11 @@ const Coffeedata = [
         likeIcon: require("../../assets/images/pnggimagesFavouriteScreen/likeIcon.png"),
     },
     {
+        prices: [
+            { size: 'S', price: '1.38', currency: '$' },
+            { size: 'M', price: '3.15', currency: '$' },
+            { size: 'L', price: '4.29', currency: '$' },
+        ],
         symbolminus: "-",
         symbolplus: "+",
         id: 14,
@@ -353,7 +418,12 @@ const Coffeedata = [
         symbol: "+",
         likeIcon: require("../../assets/images/pnggimagesFavouriteScreen/likeIcon.png"),
     },
-    {
+    {   
+        prices: [
+            { size: 'S', price: '1.38', currency: '$' },
+            { size: 'M', price: '3.15', currency: '$' },
+            { size: 'L', price: '4.29', currency: '$' },
+        ],
         symbolminus: "-",
         symbolplus: "+",
         id: 15,
@@ -379,6 +449,11 @@ const Coffeedata = [
         likeIcon: require("../../assets/images/pnggimagesFavouriteScreen/likeIcon.png"),
     },
     {
+        prices: [
+            { size: 'S', price: '1.38', currency: '$' },
+            { size: 'M', price: '3.15', currency: '$' },
+            { size: 'L', price: '4.29', currency: '$' },
+        ],
         symbolminus: "-",
         symbolplus: "+",
         id: 16,
@@ -404,6 +479,11 @@ const Coffeedata = [
         likeIcon: require("../../assets/images/pnggimagesFavouriteScreen/likeIcon.png"),
     },
     {
+        prices: [
+            { size: 'S', price: '1.38', currency: '$' },
+            { size: 'M', price: '3.15', currency: '$' },
+            { size: 'L', price: '4.29', currency: '$' },
+        ],
         symbolminus: "-",
         symbolplus: "+",
         id: 17,
@@ -429,6 +509,11 @@ const Coffeedata = [
         likeIcon: require("../../assets/images/pnggimagesFavouriteScreen/likeIcon.png"),
     },
     {
+        prices: [
+            { size: 'S', price: '1.38', currency: '$' },
+            { size: 'M', price: '3.15', currency: '$' },
+            { size: 'L', price: '4.29', currency: '$' },
+        ],
         symbolminus: "-",
         symbolplus: "+",
         id: 18,
@@ -456,6 +541,11 @@ const Coffeedata = [
 ]
 const CoffeBeansData = [
     {
+        prices: [
+            { size: '250gm', price: '5.50', currency: '$' },
+            { size: '500gm', price: '10.50', currency: '$' },
+            { size: '1Kg', price: '18.50', currency: '$' },
+        ],
         symbolminus: "-",
         symbolplus: "+",
         id: 19,
@@ -472,7 +562,7 @@ const CoffeBeansData = [
         DescriptionHeading: "Description",
         Description: "Arabica coffee beans are known for their mild and nuanced flavor, with notes of fruit, floral, and wine. They are grown at high altitudes, which slows down the maturation process, resulting in a more complex flavor profile. Arabica beans are typically more expensive than Robusta beans, but their rich and refined taste makes them a favorite among coffee connoisseurs",
         Size: "Size",
-        sizeData: ["S", "M", "L"],
+        sizeData: ["250gm", "500", "1kg"],
         priceText: "Price",
         dolarSymbol: "$",
         price: "18.5",
@@ -481,6 +571,11 @@ const CoffeBeansData = [
         likeIcon: require("../../assets/images/pnggimagesFavouriteScreen/likeIcon.png"),
     },
     {
+        prices: [
+            { size: '250gm', price: '5.50', currency: '$' },
+            { size: '500gm', price: '10.50', currency: '$' },
+            { size: '1Kg', price: '18.50', currency: '$' },
+        ],
         symbolminus: "-",
         symbolplus: "+",
         id: 20,
@@ -497,7 +592,7 @@ const CoffeBeansData = [
         DescriptionHeading: "Description",
         Description: "Excelsa coffee beans are a rare and unique variety, known for their balanced and smooth flavor.They have a medium body and a sweet, chocolatey taste with hints of spice and fruit.Excelsa beans are a hybrid of Liberica and Arabica beans, combining the best of both worlds.They are grown in limited quantities, making them a specialty among coffee connoisseurs.Excelsa coffee is perfect for those who want a smooth and flavorful cup without any bitterness.",
         Size: "Size",
-        sizeData: ["S", "M", "L"],
+        sizeData: ["250gm", "500", "1kg"],
         priceText: "Price",
         dolarSymbol: "$",
         price: "18.5",
@@ -506,6 +601,11 @@ const CoffeBeansData = [
         likeIcon: require("../../assets/images/pnggimagesFavouriteScreen/likeIcon.png"),
     },
     {
+        prices: [
+            { size: '250gm', price: '5.50', currency: '$' },
+            { size: '500gm', price: '10.50', currency: '$' },
+            { size: '1Kg', price: '18.50', currency: '$' },
+        ],
         symbolminus: "-",
         symbolplus: "+",
         id: 21,
@@ -522,7 +622,7 @@ const CoffeBeansData = [
         DescriptionHeading: "Description",
         Description: "Liberica coffee beans have a distinctive flavor profile with notes of fruity and floral hints.They have a medium to full body and a slightly sweet taste with a hint of spice.Liberica beans are known for their unique aroma, which is often described as fruity and floral.They are grown in limited quantities, mainly in West Africa.Liberica coffee is perfect for those who want to experience a unique flavor profile.",
         Size: "Size",
-        sizeData: ["S", "M", "L"],
+        sizeData: ["250gm", "500", "1kg"],
         priceText: "Price",
         dolarSymbol: "$",
         price: "18.5",
@@ -531,6 +631,11 @@ const CoffeBeansData = [
         likeIcon: require("../../assets/images/pnggimagesFavouriteScreen/likeIcon.png"),
     },
     {
+        prices: [
+            { size: '250gm', price: '5.50', currency: '$' },
+            { size: '500gm', price: '10.50', currency: '$' },
+            { size: '1Kg', price: '18.50', currency: '$' },
+        ],
         symbolminus: "-",
         symbolplus: "+",
         id: 22,
@@ -547,7 +652,7 @@ const CoffeBeansData = [
         DescriptionHeading: "Description",
         Description: "Robusta coffee beans have a bold and harsh flavor profile with notes of rubber and nuts.They have a higher caffeine content and a bolder taste than Arabica beans.Robusta beans are easier to grow and more disease- resistant than Arabica beans.They are often used as a base for instant coffee and espresso blends.Robusta coffee is perfect for those who want a strong and energetic cup.",
         Size: "Size",
-        sizeData: ["S", "M", "L"],
+        sizeData: ["250gm'", "500", "1kg"],
         priceText: "Price",
         dolarSymbol: "$",
         price: "18.5",

@@ -2,52 +2,50 @@ import { Image, StyleSheet, Text, View } from "react-native";
 import LinearGradient from "react-native-linear-gradient";
 import { RPH, RPW } from "../../components/ScreenSize";
 import colors from "../../utils/Colors";
-
-interface OrderData {
-    image: any;
-    coffeeText: string;
-    coffeeSubtitle: string;
-    dolarSymbol: string;
-    price: number;
-}
-const OrderDataItem = ({ item }: { item: OrderData }) => (
-    <View >
-        <LinearGradient colors={['#21262E', 'black']} style={styles.gradient}>
-            <View style={styles.topContent}>
-                <Image source={item.image} style={styles.imageCoffee} />
-                <View style={styles.itemContent}>
-                    <View style={styles.textContainer}>
-                        <Text style={styles.coffeeText}>{item.coffeeText}</Text>
-                        <Text style={styles.subtitle}>{item.coffeeSubtitle}</Text>
-                    </View>
-                    <View style={styles.priceContainer}>
-                        <Text style={styles.dollarSymbol}>{item.dolarSymbol}</Text>
-                        <Text style={styles.price}>{item.price}</Text>
+import { useRoute } from "@react-navigation/native";
+const OrderDataItem = ({ item}:any) => {
+    const quantity = item.quantity || 1;
+    const totalPrice = (item.price * quantity).toFixed(2);
+    console.log(item, "Order Data Item");
+    return (
+        <View>
+            <LinearGradient colors={['#21262E', 'black']} style={styles.gradient}>
+                <View style={styles.topContent}>
+                    <Image source={item.image} style={styles.imageCoffee} />
+                    <View style={styles.itemContent}>
+                        <View style={styles.textContainer}>
+                            <Text style={styles.coffeeText}>{item.title}</Text>
+                            <Text style={styles.subtitle}>{item.subtitle}</Text>
+                        </View>
+                        <View style={styles.priceContainer}>
+                            <Text style={styles.dollarSymbol}>{item.dolarSymbol}</Text>
+                            <Text style={styles.price}>{item.price}</Text>
+                        </View>
                     </View>
                 </View>
-            </View>
-            <View style={styles.bottomView}>
-                <View style={styles.sizeContainer}>
-                    <Text style={styles.sizeText}>S</Text>
+                <View style={styles.bottomView}>
+                    <View style={styles.sizeContainer}>
+                        <Text style={styles.sizeText}>S</Text>
+                    </View>
+                    <View style={styles.priceDetails}>
+                        <View style={styles.priceDetailItem}>
+                            <Text style={styles.dollarSymbol}>{item.dolarSymbol}</Text>
+                            <Text style={styles.bottomPrice}>{item.price}</Text>
+                        </View>
+                        <View style={styles.priceDetailItem}>
+                            <Text style={styles.multiplySymbol}> x </Text>
+                            <Text style={styles.quantity}>{quantity}</Text>
+                        </View>
+                        <View style={styles.priceDetailItem}>
+                            <Text style={styles.dollarSymbol}>{item.dolarSymbol}</Text>
+                            <Text style={styles.bottomPrice}>{totalPrice}</Text>
+                        </View>
+                    </View>
                 </View>
-                <View style={styles.priceDetails}>
-                    <View style={styles.priceDetailItem}>
-                        <Text style={styles.dollarSymbol}>$</Text>
-                        <Text style={styles.bottomPrice}>1.38</Text>
-                    </View>
-                    <View style={styles.priceDetailItem}>
-                        <Text style={styles.multiplySymbol}> x </Text>
-                        <Text style={styles.quantity}>1</Text>
-                    </View>
-                    <View style={styles.priceDetailItem}>
-                        <Text style={styles.dollarSymbol}>$</Text>
-                        <Text style={styles.bottomPrice}>1.38</Text>
-                    </View>
-                </View>
-            </View>
-        </LinearGradient>
-    </View>
-);
+            </LinearGradient>
+        </View>
+    );
+};
 const styles=StyleSheet.create({
     gradient: {
         flex: 1,
@@ -64,9 +62,9 @@ const styles=StyleSheet.create({
     imageCoffee: {
         marginHorizontal: RPW(2),
         marginVertical: RPH(1),
-        width: RPW(30),
-        height: RPH(15),
-        borderRadius: RPW(3),
+        width: RPW(20),
+        height: RPH(10),
+        borderRadius: RPW(3.5),
     },
     itemContent: {
         marginHorizontal: RPW(3),
@@ -79,10 +77,10 @@ const styles=StyleSheet.create({
         flexDirection: "column",
     },
     coffeeText: {
-        fontFamily: "Popppins-Medium",
+        fontFamily: "Popppins-Bold",
         fontSize: RPW(5.5),
         color: colors.textTitleLight,
-        fontWeight: '400',
+        fontWeight: '800',
     },
     subtitle: {
         fontFamily: "Poppins-Light",
@@ -95,14 +93,15 @@ const styles=StyleSheet.create({
         justifyContent: 'space-between',
     },
     dollarSymbol: {
-        fontFamily: "Poppins-Medium",
+        fontFamily: "Poppins-Bold",
         fontWeight: "400",
-        fontSize: RPW(5),
+        fontSize: RPW(5.5),
         color: colors.copperRed,
         marginRight: RPW(0.5),
     },
     price: {
-        fontFamily: "Poppins-Light",
+        fontFamily: "Poppins-Bold",
+        fontWeight: '400',
         fontSize: RPW(5),
         color: colors.textTitleLight,
     },
@@ -123,7 +122,7 @@ const styles=StyleSheet.create({
         marginRight: RPW(4),
     },
     sizeText: {
-        fontFamily: "Poppins-Light",
+        fontFamily: "Poppins-Medium",
         fontSize: RPH(2),
         textAlignVertical: "center",
         color: colors.textTitleLight,
@@ -140,7 +139,7 @@ const styles=StyleSheet.create({
         alignItems: "center",
     },
     bottomPrice: {
-        fontFamily: "Poppins-Light",
+        fontFamily: "Poppins-Medium",
         fontWeight: "400",
         fontSize: RPW(4),
         color: colors.textTitleLight,
@@ -152,7 +151,7 @@ const styles=StyleSheet.create({
         color: colors.copperRed,
     },
     quantity: {
-        fontFamily: "Poppins-Light",
+        fontFamily: "Poppins-Medium",
         fontWeight: "400",
         fontSize: RPW(4),
         color: colors.textTitleLight,

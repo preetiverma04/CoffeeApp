@@ -2,7 +2,6 @@ import React from 'react';
 import { View, StyleSheet } from 'react-native';
 import CustomPaymentButton from '../../components/CustomPaymentButton';
 import imagesPath from '../../components/ImagePath/imagesPath';
-
 const PaymentMethods = () => {
     return (
         <View style={styles.paymentButtonContainer}>

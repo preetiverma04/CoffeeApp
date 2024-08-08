@@ -4,7 +4,7 @@ import { StyleSheet } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 import colors from './Colors';
 
-const LinearGradientColors = ({ children}) => {
+const LinearGradientColors = ({ children}:any) => {
     return (
         <LinearGradient
             colors={[colors.lineargradient_FavouriteScreen_darkSlateBlue,colors.lineargradient_FavouriteScreen_darkSlateBlue,colors.pureBlack]}
@@ -16,11 +16,9 @@ const LinearGradientColors = ({ children}) => {
         </LinearGradient>
     );
 };
-
 const styles = StyleSheet.create({
     gradient: {
         flex: 1,
     },
 });
-
 export default LinearGradientColors;
