@@ -70,8 +70,6 @@ export const Reducer = (state = initialState, action: { type: any; payload: any;
             return state;
     }
 };
-
-// Cart and Order History Reducer
 export const CartReducer = (state = initialState, action: { type: any; payload: any; }) => {
     switch (action.type) {
         case INITIALIZE_CART:
@@ -140,6 +138,7 @@ export const CartReducer = (state = initialState, action: { type: any; payload: 
         }
         case INCREMENT_ITEM_QUANTITY: {
             const { id, selectedSize } = action.payload;
+            console.log("selected Size ", selectedSize)
             console.log('Incrementing quantity for item ID:', id, 'Size:', selectedSize);
             const updatedCart = state.Cart.map(item =>
                 item.id === id
@@ -153,15 +152,16 @@ export const CartReducer = (state = initialState, action: { type: any; payload: 
                     }
                     : item
             );
-
             saveToCartStorage(updatedCart);
             return {
                 ...state,
                 Cart: updatedCart,
             };
         }
+
         case DECREMENT_ITEM_QUANTITY: {
             const { id, selectedSize } = action.payload;
+            console.log("kehiurwiuehuhiwh", id, selectedSize)
             const updatedCart = state.Cart.map(item => {
                 if (item.id === id) {
                     const updatedPrices = item.prices.map(price => {
@@ -170,14 +170,14 @@ export const CartReducer = (state = initialState, action: { type: any; payload: 
                             return { ...price, quantity: updatedQuantity };
                         }
                         return price;
-                    }).filter(price => price.quantity > 0); // Remove size with 0 quantity
+                    }).filter(price => price.quantity > 0);
                     return {
                         ...item,
                         prices: updatedPrices,
                     };
                 }
                 return item;
-            }).filter(item => item.prices.length > 0); // Remove item if no sizes left
+            }).filter(item => item.prices.length > 0);
 
             saveToCartStorage(updatedCart);
             return {

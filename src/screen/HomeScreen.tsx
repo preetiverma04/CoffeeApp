@@ -10,7 +10,7 @@ const HomeScreen = () => {
     const [searchTab, setsearchTab] = useState('');
     const handlesearchData = (text:any) => {
         setsearchTab(text);
-        console.log(text);
+        // console.log(text);
     };
     return (
         <>

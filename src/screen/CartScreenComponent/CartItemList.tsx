@@ -4,18 +4,17 @@ import CartItem from '../CartScreenComponent/CartItem';
 import { RPH, RPW } from '../../components/ScreenSize';
 import colors from '../../utils/Colors';
 import CustomButton from '../../components/CustomButton';
-
 const CartItemsList = ({ data, quantities, onAdd, onMinus, calculateTotalPrice, onPayPress }: any) => {
-    console.log('CartItemsList Data:', data);
-    console.log('Quantities:', quantities);
-    console.log('Total Price Calculation:', calculateTotalPrice());
+    // console.log('CartItemsList Data:', data);
+    // console.log('Quantities:', quantities);
+    // console.log('Total Price Calculation:', calculateTotalPrice());
 
     const renderItemsData = ({ item }: any) => (
         <CartItem
             item={item}
-            // quantity={quantities[item.id]} // Ensure item.id is correctly used here
-            onAdd={() => onAdd(item.id, item.selectedSize)} // Make sure to pass correct params
-            onMinus={() => onMinus(item.id, item.selectedSize)} // Make sure to pass correct params
+            quantities={quantities} 
+            onAdd={() => onAdd(item.id, item.selectedSize)}
+            onMinus={() => onMinus(item.id, item.selectedSize)}
         />
     );
 

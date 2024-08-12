@@ -8,5 +8,6 @@ const colors = {
     blue_gray:'#21262E',
     darkGray: '#383A3E',
     red:"red",
+    RoastedButton:'#141921',
 };
 export default colors;

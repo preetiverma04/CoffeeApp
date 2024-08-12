@@ -30,11 +30,11 @@ export const incrementItemQuantity = (id,selectedSize) => ({
     payload: {id ,selectedSize},
 });
 
-export const decrementItemQuantity = (id,selectedSize) => ({
+export const decrementItemQuantity = (id, selectedSize) => ({
     type: DECREMENT_ITEM_QUANTITY,
     payload:  {id,selectedSize} ,
 });
-export const removeFromCart = (CartItems: any) => {
+export const removeFromCart = (CartItems: any, size: any) => {
     return {
         type: REMOVE_FROM_CART,  
     };

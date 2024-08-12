@@ -6,6 +6,7 @@ import { useRoute } from "@react-navigation/native";
 const OrderDataItem = ({ item}:any) => {
     const quantity = item.quantity || 1;
     const totalPrice = (item.price * quantity).toFixed(2);
+    
     console.log(item, "Order Data Item");
     return (
         <View>
